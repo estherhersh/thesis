@@ -161,15 +161,11 @@ var yOffset
         c.background('#8CAEED')
         c.parent(mySelector)
 
-        // inputGraphic = createGraphics(300, 1000);
-
         //might need to be in draw or resuze
         offsetPosition=select('#thisCol').position()
-        xOffset = offsetPosition.x + c.position().x +15;
-        yOffset = offsetPosition.y + c.position().y +15;
+       
 
-
-        
+  
 
 
         buttonSelector = document.getElementById('singlebutton');
@@ -194,12 +190,14 @@ var yOffset
 
  //buttonSelector.mousePressed();
 
-    
+     xOffset = offsetPosition.x + c.position().x +15;
+        yOffset = offsetPosition.y + c.position().y +15;
+
 
 }
 
 
-
+//version nodes object 
 function Version(xpos,ypos,name){
 
     this.x=xpos;
@@ -229,8 +227,6 @@ function Version(xpos,ypos,name){
         // this.nameInput.changed(function(){console.log(this.data)})
         this.nameInput.changed(this.update.bind(null,this))
 
-
-        
         console.log(this.nameInputValue)
 
         // this.input.addEventListener("onchange", this.update)
