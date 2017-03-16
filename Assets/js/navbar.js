@@ -1,12 +1,12 @@
  
-$html = $('<textarea id="codeeditor" width=400px height=400px></textarea>');
+// $html = $('<textarea id="codeeditor"></textarea>');
 
-$(document).ready(function(){
+// $(document).ready(function(){
 
 
- $('.content').append($html)
+//  $('.content').append($html)
 
-});
+// });
 
 
 // <textarea id="codeeditor" width=400px height=400px></textarea>
