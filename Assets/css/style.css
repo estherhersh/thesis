@@ -13,15 +13,42 @@ body {
 
 #versions {
   background-color:#8CAEED;
+      position:relative;
+
   min-height: 1094px;
+  margin-right: 0px;
+  /*  width: 150px;
+*/
+}
+
+.sidebar{
+    background-color:#8CAEED;
+
+    position:absolute;
+    width: 500px;
+    right:-250px;
+    margin-right: 0px;
+
+
+
+}
+.sidebar:hover{
+
+/*    margin-right: 0px;
+*/
+    right:-20px;
+
+
+
 }
 
 .version {
   background-color: #fff;
   border: 1px solid #000;
   border-radius: 10px;
-  padding: .5em;
-  margin: 1em;
+  padding: .2em;
+  margin: 2em;
+  width: 160px;
 }
 #versionName{
   border: 0px;
@@ -40,8 +67,17 @@ body {
   border-style: solid;
   border-color: #000000;
   border-width: 2px;
+  background-color: white;
 }
 
 .singlebutton {
   position:fixed;
+}
+
+.related{
+    border-radius:90px;
+    border:9px ;
+    color: rgba(0,0,0,0.7);
+
+
 }

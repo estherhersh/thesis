@@ -16,6 +16,8 @@ var codeeditor = CodeMirror.fromTextArea(textarea, {
 
 $( "#codeeditor").change(submit_code());
 
+
+
 function myFunction(){
   console.log("change!")
 }
@@ -37,10 +39,38 @@ function submit_code()
     setTimeout(submit_code, 5000);
 });
 
+///make elements draggable
+$(document).ready(function(){
+  //result is working
+    $("#result").draggable();
+  //not working  
+    $("#codeeditor").draggable();
 
 
 
 
+  //    var sidebarWidth = $('.sidebar').width();//get width automaticly
+  // $('.sidebar').hover(function() {
+  //   if($(this).css("margin-right") == -200+"px" && !$(this).is(':animated'))
+  //   {
+  //       $('.sidebar').animate({"margin-right": '-='+100});
+  //   }
+  //   else
+  //   {
+  //       if(!$(this).is(':animated'))//perevent double click to double margin
+  //       {
+  //           $('.sidebar').animate({"margin-right": '+='+100});
+  //       }
+  //   }
+
+
+  // });
+
+});
+
+// $( document ).click(function() {
+//   $( "#versions" ).animate({"margin-right": '-=200'});
+// });
 
 
 // Code to handle versions
@@ -57,10 +87,24 @@ var versionsCol = document.getElementById('versions');
 // When that button is clicked
 saveButton.addEventListener('click', function(e) {
 
+
   // Don't follow the link
   e.preventDefault();
 
-//How to save and access these later on??/
+  // save a bear
+  // $.ajax({
+  //   type: "POST",
+  //   url: 'http://localhost:3000/api/bears',
+  //   data: {
+  //     name: "Rune",
+  //     bearType: 'grizzly'
+  //   },
+  //   success: function(data) {
+  //     console.log('done!')
+  //     console.log(data)
+  //   },
+  //   dataType: dataType
+  // });
 
   // Create a new div DOM element
   var version = document.createElement('div')
@@ -71,7 +115,21 @@ saveButton.addEventListener('click', function(e) {
 
   // Add it to the #versions column 
   versionsCol.appendChild(version);
+  $(version).draggable({ containment: "parent"})
+$('.version').connections({
+  to: '.version',
+  'class': 'related'
+});
+console.log('connect')
+// $('.version').connections('update');
+
+var c = $('connection');
+setInterval(function() {
+  c.connections('update');
+}, 10);
 
   // Increment counter for next version
   counter++;
 })
+
+
