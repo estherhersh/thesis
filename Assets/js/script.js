@@ -92,19 +92,17 @@ saveButton.addEventListener('click', function(e) {
   e.preventDefault();
 
   // save a bear
-  // $.ajax({
-  //   type: "POST",
-  //   url: 'http://localhost:3000/api/bears',
-  //   data: {
-  //     name: "Rune",
-  //     bearType: 'grizzly'
-  //   },
-  //   success: function(data) {
-  //     console.log('done!')
-  //     console.log(data)
-  //   },
-  //   dataType: dataType
-  // });
+  $.ajax({
+    type: "POST",
+    url: 'http://localhost:3000/api/bears',
+    data: {
+      code: codeeditor.getValue()
+    },
+    success: function(data) {
+      console.log('done!')
+      console.log(data)
+    }
+  });
 
   // Create a new div DOM element
   var version = document.createElement('div')
