@@ -4,10 +4,10 @@ var express    = require('express');        // call express
 var app        = express();                 // define our app using express
 var bodyParser = require('body-parser');
 
-var server= app.listen(3000, listening);
+var server= app.listen(8080, listening);
 
 function listening(){
-	console.log("listening...");
+    console.log("listening...");
 }
 
 //allows express to hold static files like html(scif)
@@ -27,9 +27,9 @@ app.use(function(req, res, next) {
 // var port = process.env.PORT || 8080;        // set our port
 
 var mongoose   = require('mongoose');
-mongoose.connect('mongodb://localhost:27017/bears'); // connect to our database
+mongoose.connect('mongodb://localhost:27017/versions'); // connect to our database
 
-var Bear     = require('./app/models/bear');
+var Version     = require('./app/models/version');
 
 
 // ROUTES FOR OUR API
@@ -54,75 +54,75 @@ router.get('/', function(req, res) {
 
 // on routes that end in /bears
 // ----------------------------------------------------
-router.route('/bears')
+router.route('/versions')
 
     // create a bear (accessed at POST http://localhost:8080/api/bears)
     .post(function(req, res) {
-        console.log("creating a bear")
-        var bear = new Bear();      // create a new instance of the Bear model
-        bear.name = req.body.name;  // set the bears name (comes from the request)
-        bear.bearType = req.body.bearType;  // set the bears type (comes from the request)
+        console.log("creating a version")
+        var version = new Version();      // create a new instance of the Bear model
+        version.editorValue = req.body.editorValue;  // set the bears name (comes from the request)
+        // version.bearType = req.body.bearType;  // set the bears type (comes from the request)
 
         // save the bear and check for errors
-        bear.save(function(err) {
-        	console.log("callback from save")
-        	console.log(err);
+        version.save(function(err) {
+            console.log("callback from save")
+            console.log(err);
             if (err)
                 res.json({error:err});
 
-            res.json({ message: 'Bear created!', id: 'REPLACEME' });
+            res.json({ message: 'Version created!'/*, _id: 'REPLACEME'*/ });
         });
         
     });
     //get all the bears 
-router.route('/bears').get(function(req,res){
-    	Bear.find(function(err,bears){
-    		if (err)
-    			res.send(err);
+router.route('/versions').get(function(req,res){
+        Version.find(function(err,versions){
+            if (err)
+                res.send(err);
 
-    		res.json(bears);
-    	});
+            res.json(versions);
+        });
     });
 
 
 ///bears that end in ber_id
-router.route('/bears/:bear_id')
+router.route('/versions/:version_id')
 
-	.get(function(req, res) {
-		// console.log('get ID')
-        Bear.findById(req.params.bear_id, function(err, bear) {
+    .get(function(req, res) {
+        // console.log('get ID')
+        Version.findById(req.params.version_id, function(err, version) {
             if (err)
                 res.send(err);
-            res.json(bear);
+            res.json(version);
         });
     })
 //update the bear with the ID that you just pulled
     .put(function(req, res) {
-		// use our model to find the bear we want 
-        Bear.findById(req.params.bear_id, function(err, bear) {
+        // use our model to find the bear we want 
+        Version.findById(req.params.version_id, function(err, version) {
             if (err)
                 res.send(err);
         
-        bear.name = req.body.name;  // update the bears info
+        version.editorValue = req.body.editorValue;  // update the bears info
 
          // save the bear
-            bear.save(function(err) {
+            version.save(function(err) {
                 if (err)
                     res.send(err);
 
-                res.json({ message: 'Bear updated!' });
+                res.json({ message: 'version updated!' });
 
-        	});
+            });
 
- 		});
+        });
 
     })
 
 // delete the bear with this id (accessed at DELETE http://localhost:8080/api/bears/:bear_id)
     .delete(function(req, res) {
-        Bear.remove({
-            _id: req.params.bear_id
-        }, function(err, bear) {
+        Version.remove({
+            _id: req.params.version_id
+        }, function(err, version) {
             if (err)
                 res.send(err);
 
@@ -135,11 +135,11 @@ router.route('/bears/:bear_id')
 app.use('/api', router);
 
 
-app.get('/', sendBear);   
+app.get('/', sendVersion);   
 
 
-function sendBear(req, res) {
-	console.log("1.")
+function sendVersion(req, res) {
+    console.log("1.")
     res.sendFile("index.html", { root: __dirname }); 
 }
 

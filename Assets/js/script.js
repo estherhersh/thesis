@@ -78,6 +78,50 @@ $(document).ready(function(){
 
 var counter = 1;
 
+function createVersion(id) {
+  // Create a new div DOM element
+  var version = document.createElement('div')
+  version.className = 'version';
+  // var userInput = version.value;
+  //version.innerHTML = ' <input id="'+id+'" placeholder="Version' + counter + '" rows= 1>' ;
+  version.innerHTML = ' <a id="'+id+'" href="#">Version' +counter+ '</a>' ;
+  // console.log(userInput)
+
+  // Add it to the #versions column 
+  versionsCol.appendChild(version);
+  $(version).draggable({ containment: "parent"})
+
+  $(version).find('a').click(function(e) {
+    var id = $(this).attr('id');
+    console.log('I clicked ' + id)
+
+    // make a get request to /api/versions/{id}
+
+    // take the result data and put data.editorValue inside the editor
+
+  });
+
+  counter++;
+}
+
+// Load existing versions
+// ---------------------------
+
+ $.ajax({
+    type: "GET",
+    url: 'http://localhost:8080/api/versions',
+    success: function(data) {
+      for(var i = 0; i < data.length; i++) {
+        createVersion(data[i]._id)
+      }
+    }
+  });
+
+
+
+// Create new versions
+// ---------------------------
+
 // Find the save button
 var saveButton = document.getElementById('singlebutton');
 
@@ -91,43 +135,33 @@ saveButton.addEventListener('click', function(e) {
   // Don't follow the link
   e.preventDefault();
 
-  // save a bear
+  // save a version
   $.ajax({
     type: "POST",
-    url: 'http://localhost:3000/api/bears',
+    url: 'http://localhost:8080/api/versions',
     data: {
-      code: codeeditor.getValue()
+      editorValue: codeeditor.getValue()
     },
     success: function(data) {
-      console.log('done!')
-      console.log(data)
+      // THE ID IS NOT THERE!
+      createVersion(data._id);
     }
   });
 
-  // Create a new div DOM element
-  var version = document.createElement('div')
-  version.className = 'version';
-  // var userInput = version.value;
-  version.innerHTML = ' <input id="versionName" placeholder="Version' + counter + '" rows= 1>' ;
-  // console.log(userInput)
+// $('.version').connections({
+//   to: '.version',
+//   'class': 'related'
+// });
+// console.log('connect')
+// // $('.version').connections('update');
 
-  // Add it to the #versions column 
-  versionsCol.appendChild(version);
-  $(version).draggable({ containment: "parent"})
-$('.version').connections({
-  to: '.version',
-  'class': 'related'
-});
-console.log('connect')
-// $('.version').connections('update');
-
-var c = $('connection');
-setInterval(function() {
-  c.connections('update');
-}, 10);
+// var c = $('connection');
+// setInterval(function() {
+//   c.connections('update');
+// }, 10);
 
   // Increment counter for next version
-  counter++;
+  
 })
 
 
