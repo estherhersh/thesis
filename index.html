@@ -34,15 +34,15 @@
   <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
   <script type="text/javascript" src="jquery/jquery.connections.js"></script>
 
-
-
   <link rel="stylesheet" href="Assets/css/style.css">
 
 
 </head>
-
 <body>
 
+
+<!-- NAVIGATION BAR
+ -->  
   <nav role="navigation" class="navbar navbar-default navbar-fixed-top">
     <div class="container-fluid">
 
@@ -51,11 +51,12 @@
       </div>
 
       <ul class="nav navbar-nav">
-        <li class="active"><a href="#">File</a></li>
-        <li><a href="#">Edit</a></li>
+        <li class="dropdown" ><a href="#">File</a></li>
+        <li class="dropdown"><a href="#">Edit</a></li>
         <li class="dropdown">
           <a data-toggle="dropdown" class="dropdown-toggle" href="#">Boards <b class="caret"></b></a>
           <ul role="menu" class="dropdown-menu">
+            <li><a href="#">Arduino</a></li>
             <li><a href="#">Input</a></li>
             <li><a href="#">Output</a></li>
             <li><a href="#">Resistor</a></li>
@@ -80,6 +81,23 @@
     </div>
   </nav>
 
+<!-- TOOL BAR 
+ -->
+<div class="container-fluid breadcrumb-wrapper">
+   <div id=buttons class="btn-group">
+    <button type="button" class="btn btn-default btn-lg"><span class="glyphicon glyphicon-pencil"></span></button>
+    <button type="button" id= textbutton class="btn btn-default btn-lg" ><span class="glyphicon glyphicon-font"></span></button>
+    <button type="button" id= quest  class="btn btn-default btn-lg"><span class="glyphicon glyphicon-question-sign" ></span></button>
+    <button type="button" class="btn btn-default btn-lg"><span class="glyphicon glyphicon-th-list"></span></button>
+    <button id= arduino type="button" class="btn btn-default btn-lg"><span class="glyphicon glyphicon-picture"></span></button>
+    <button type="button" class="btn btn-default btn-lg"><span class="glyphicon glyphicon-file"></span></button>
+    <button type="button" class="btn btn-default btn-lg"><span class="glyphicon glyphicon-minus" style="color:blue"></span></button>
+    <button type="button" class="btn btn-default btn-lg"><span class="glyphicon glyphicon-minus" style="color:red"></span></button>
+    <button type="button" class="btn btn-default btn-lg"><span class="glyphicon glyphicon-minus" style="color:green"></span></button>
+    <button type="button" class="btn btn-default btn-lg"><span class="glyphicon glyphicon-minus" style="color:yellow"></span></button>
+  </div>
+</div>
+
   <div class="row">
 
     <div class="col-lg-10">
@@ -88,16 +106,17 @@
         <button id="singlebutton" name="save" class="btn btn-info btn-lg center-block">SAVE</button>
       </div>
 
-      <div class="row">
-        <div class="container-tabs">
-           <ul class="nav nav-tabs">
-             <li role="presentation" class="active"><a href="#">Project1</a></li>
-             <li role="presentation"><a href="#">+</a></li>
-          </ul>
-        </div>
-      </div>
 
-      <section id="maincanvas">
+      <div class="row">
+<!--         <div class="container-tabs">
+ -->       <ul class="nav nav-tabs">
+             <li role="presentation" class="active"><a href="#">Project1</a></li>
+             <li role="presentation" class="passive"><a href="#">+</a></li>
+          </ul>
+<!--         </div>
+ -->      </div>
+
+<section id="maincanvas">
         <div class="row">
           <div class="content">
               <div class="col-lg-6">
@@ -129,10 +148,9 @@ function draw() {
 
           </div>
         </div>
-      </section>
+ </section>
 
     </div>
-
     <div class="sidebar">
     <div id="versions"></div>
     </div>
