@@ -56,7 +56,7 @@
         <li class="dropdown">
           <a data-toggle="dropdown" class="dropdown-toggle" href="#">Boards <b class="caret"></b></a>
           <ul role="menu" class="dropdown-menu">
-            <li><a href="#">Arduino</a></li>
+            <li id= arduino><a href="#">Arduino</a></li>
             <li><a href="#">Input</a></li>
             <li><a href="#">Output</a></li>
             <li><a href="#">Resistor</a></li>
@@ -71,7 +71,7 @@
             <li><a href="#">HTML</a></li>
             <li><a href="#">CSS</a></li>
             <li><a href="#">Arduino</a></li>
-            <li><a href="#">p5.js</a></li>
+            <li id=p5 ><a href="#">p5.js</a></li>
           </ul>
         </li>
       </ul>
@@ -89,7 +89,7 @@
     <button type="button" id= textbutton class="btn btn-default btn-lg" ><span class="glyphicon glyphicon-font"></span></button>
     <button type="button" id= quest  class="btn btn-default btn-lg"><span class="glyphicon glyphicon-question-sign" ></span></button>
     <button type="button" class="btn btn-default btn-lg"><span class="glyphicon glyphicon-th-list"></span></button>
-    <button id= arduino type="button" class="btn btn-default btn-lg"><span class="glyphicon glyphicon-picture"></span></button>
+    <button  type="button" class="btn btn-default btn-lg"><span class="glyphicon glyphicon-picture"></span></button>
     <button type="button" class="btn btn-default btn-lg"><span class="glyphicon glyphicon-file"></span></button>
     <button type="button" class="btn btn-default btn-lg"><span class="glyphicon glyphicon-minus" style="color:blue"></span></button>
     <button type="button" class="btn btn-default btn-lg"><span class="glyphicon glyphicon-minus" style="color:red"></span></button>
@@ -118,14 +118,12 @@
 
 <section id="maincanvas">
 <br>
-    <textarea id=question rows="1" cols="50" placeholder="DRAW A ROBOT"></textarea>
-
         <div class="row">
           <div class="content">
 
               <div class="col-lg-6">
 
-            <div>
+            <div class= "p5editor">
               <textarea id="codeeditor" onchange="submit_code()">function setup(){
   createCanvas(200,200);
 
@@ -134,33 +132,27 @@ function draw() {
 
 }
               </textarea>
-              
-          <button onclick="submit_code();">Run</button>
 
-            </div>
+          <button type="button" class="btn btn-default btn-lg" onclick="submit_code();">Run</button>
             </div>
 
 
 
-            <div class="frame">
+            </div>
+
+
+
                 <div class="col-lg-6">
+              <div class="frame" >
 
-              <iframe id="result" width=550px height=400px></iframe>
+              <iframe id="result" height=100%; width=100%;></iframe>
                 </div>
             </div>
 
 
           </div>
         </div>
-<div class="col-lg-4">
-      <textarea id=question rows="1" cols="40" placeholder="What did you try?"></textarea><br><textarea id=answer rows="6" cols="40" placeholder="Type Here..."></textarea>
-  </div>
-<div class="col-lg-4">
-       <textarea id=question rows="1" cols="40" placeholder="What was the result?"></textarea><br><textarea id=answer rows="6" cols="40" placeholder="Type Here..."></textarea>
-  </div>
-<div class="col-lg-4">
-        <textarea id=question rows="1" cols="40" placeholder="What will you try next?"></textarea><br><textarea id=answer rows="6" cols="40" placeholder="Type Here..."></textarea>
-  </div>
+
  </section>
 
     </div>

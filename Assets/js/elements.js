@@ -55,11 +55,19 @@ arduinobutton.addEventListener('click', addArduino);
 
 
 
+
+
+
+
+
+
 ///make elements draggable
 $(document).ready(function(){
   //result is working
-    $("#result").draggable();
+    $(".frame").draggable();
   //not working  
     $("#codeeditor").draggable();
+    $(".p5editor").draggable();
+
 
 });

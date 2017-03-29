@@ -41,8 +41,6 @@ function submit_code()
 // });
 
 
-
-
 // Code to handle versions
 // ---------------------------------------------
 
@@ -63,14 +61,14 @@ function createVersion(id) {
 
   $(version).find('a').click(function(e) {
     var id = $(this).attr('id');
-    console.log('I clicked ' + id)
+    // console.log('I clicked ' + id)
 
     // make a get request to /api/versions/{id}
           $.ajax({
             type: "GET",
             url: 'http://localhost:8080/api/versions/'+id,
             success: function(data) {
-              console.log(data.editorValue)
+              // console.log(data.editorValue)
 
     var cdn = "<script src='https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.5.7/p5.min.js'></script><script src='https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.5.7/addons/p5.dom.min.js'></script><script>"
     var endcdn="</script></body></html>"

@@ -86,6 +86,20 @@ body {
 
 }
 
+.p5editor{
+      padding:10px;
+    border-color: #000000;
+    border-width: 8px;
+    background-color:#65BABF ;
+}
+.frame{
+    padding:5px;
+    border-color: #000000;
+    border-width: 8px;
+    background-color:#65BABF ;
+    height:400px;
+}
+
 .content {
     padding:20px;
 }
