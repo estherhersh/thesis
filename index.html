@@ -117,25 +117,29 @@
  -->      </div>
 
 <section id="maincanvas">
+<br>
+    <textarea id=question rows="1" cols="50" placeholder="DRAW A ROBOT"></textarea>
+
         <div class="row">
           <div class="content">
+
               <div class="col-lg-6">
 
             <div>
               <textarea id="codeeditor" onchange="submit_code()">function setup(){
   createCanvas(200,200);
+
 }
 function draw() {
-  ellipse(40,40,20,20);
+
 }
               </textarea>
+              
+          <button onclick="submit_code();">Run</button>
 
             </div>
             </div>
 
-
-<!--           <button onclick="submit_code();">Run</button>
- -->
 
 
             <div class="frame">
@@ -148,6 +152,15 @@ function draw() {
 
           </div>
         </div>
+<div class="col-lg-4">
+      <textarea id=question rows="1" cols="40" placeholder="What did you try?"></textarea><br><textarea id=answer rows="6" cols="40" placeholder="Type Here..."></textarea>
+  </div>
+<div class="col-lg-4">
+       <textarea id=question rows="1" cols="40" placeholder="What was the result?"></textarea><br><textarea id=answer rows="6" cols="40" placeholder="Type Here..."></textarea>
+  </div>
+<div class="col-lg-4">
+        <textarea id=question rows="1" cols="40" placeholder="What will you try next?"></textarea><br><textarea id=answer rows="6" cols="40" placeholder="Type Here..."></textarea>
+  </div>
  </section>
 
     </div>
@@ -158,6 +171,8 @@ function draw() {
   </div>
 
 <script src="Assets/js/script.js"></script>
+<script src="Assets/js/elements.js"></script>
+
 
 
 

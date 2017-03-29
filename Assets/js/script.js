@@ -1,3 +1,4 @@
+//Create text editor
 var code
 var data_url
 var textarea = document.getElementById("codeeditor")
@@ -14,93 +15,31 @@ var codeeditor = CodeMirror.fromTextArea(textarea, {
   }
 });
 
+
+//update code on change (only updates first time)
 $( "#codeeditor").change(submit_code());
 
 
-
-function myFunction(){
-  console.log("change!")
-}
 function submit_code()
 {
     // codeeditor.save();
     var cdn = "<script src='https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.5.7/p5.min.js'></script><script src='https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.5.7/addons/p5.dom.min.js'></script><script>"
     var endcdn="</script></body></html>"
     code = cdn + codeeditor.getValue() + endcdn;
-    // console.log(code);
-  
-    data_url = "data:text/html;charset=utf-8;base64," + $.base64.encode(code);
-    document.getElementById("result").src = data_url;
+
+        var previewFrame = document.getElementById('result');
+        var preview =  previewFrame.contentDocument ||  previewFrame.contentWindow.document;
+        preview.open();
+        preview.write(code);
+        preview.close();
 
 }
 
- codeeditor.on('change', function(e) {
-    setTimeout(submit_code, 5000);
-});
+//  CRASHES  WITH FOR LOOPS
+//  codeeditor.on('change', function(e) {
+//     setTimeout(submit_code, 5000);
+// });
 
-///make elements draggable
-$(document).ready(function(){
-  //result is working
-    $("#result").draggable();
-  //not working  
-    $("#codeeditor").draggable();
-
-
-});
-
-// Code to add textboxes
-// ---------------------------------------------
-
-function addText() {
-  // Create a new div 
-  var maincanvas= document.getElementById("maincanvas")
-  var textbox = document.createElement('div')
-  textbox.className = 'textbox';
-  textbox.innerHTML = '<textarea id=text rows="1" cols="50" placeholder="Type Here..."></textarea>'
-  // Add it to the main canvas
-  maincanvas.appendChild(textbox);
-  $(textbox).draggable({cursor: "crosshair"})
-
-}
-
-var textButton = document.getElementById('textbutton');
-textButton.addEventListener('click', addText);
-
-// Code to add questions
-// ---------------------------------------------
-
-function addQuestion() {
-  // Create a new div 
-  var maincanvas= document.getElementById("maincanvas")
-  var questbox = document.createElement('div')
-  questbox.className = 'questbox';
-  questbox.innerHTML = '<textarea id=question rows="1" cols="50" placeholder="QUESTION"></textarea><br><textarea id=answer rows="6" cols="50" placeholder="Type Here..."></textarea>'
-  // Add it to the main canvas
-  maincanvas.appendChild(questbox);
-  $(questbox).draggable({cursor: "crosshair"})
-
-}
-
-var questButton = document.getElementById('quest');
-questButton.addEventListener('click', addQuestion);
-
-// Code to add Arduino
-// ---------------------------------------------
-
-function addArduino() {
-  // Create a new div 
-  var maincanvas= document.getElementById("maincanvas")
-  var arduino = document.createElement('div')
-  arduino.className = 'arduinos';
-  arduino.innerHTML = '<img src="assets/images/arduino.png" width=400px/>'
-  // Add it to the main canvas
-  maincanvas.appendChild(arduino);
-  $(arduino).draggable({cursor: "crosshair"})
-
-}
-
-var arduinobutton = document.getElementById('arduino');
-arduinobutton.addEventListener('click', addArduino);
 
 
 
@@ -127,13 +66,33 @@ function createVersion(id) {
     console.log('I clicked ' + id)
 
     // make a get request to /api/versions/{id}
+          $.ajax({
+            type: "GET",
+            url: 'http://localhost:8080/api/versions/'+id,
+            success: function(data) {
+              console.log(data.editorValue)
 
-    // take the result data and put data.editorValue inside the editor
+    var cdn = "<script src='https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.5.7/p5.min.js'></script><script src='https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.5.7/addons/p5.dom.min.js'></script><script>"
+    var endcdn="</script></body></html>"
+    pastcode = cdn + data.editorValue + endcdn;
+  
+      
+      // take the result data and put data.editorValue inside the editor
+        var previewFrame = document.getElementById('result');
+        var preview =  previewFrame.contentDocument ||  previewFrame.contentWindow.document;
+        preview.open();
+        preview.write(pastcode);
+        preview.close();
+        codeeditor.setValue(data.editorValue);
 
+            }
+          });
   });
 
   counter++;
 }
+
+
 
 // Load existing versions
 // ---------------------------
