@@ -1,4 +1,5 @@
 //Create text editor
+var basicElements=[];
 var code
 var data_url
 var textarea = document.getElementById("codeeditor")
@@ -32,7 +33,6 @@ function submit_code()
         preview.open();
         preview.write(code);
         preview.close();
-
 }
 
 //  CRASHES  WITH FOR LOOPS
@@ -60,6 +60,8 @@ function createVersion(id) {
   $(version).draggable({ containment: "parent"})
 
   $(version).find('a').click(function(e) {
+
+    e.preventDefault();
     var id = $(this).attr('id');
     // console.log('I clicked ' + id)
 
@@ -70,18 +72,25 @@ function createVersion(id) {
             success: function(data) {
               // console.log(data.editorValue)
 
-    var cdn = "<script src='https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.5.7/p5.min.js'></script><script src='https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.5.7/addons/p5.dom.min.js'></script><script>"
-    var endcdn="</script></body></html>"
-    pastcode = cdn + data.editorValue + endcdn;
-  
-      
-      // take the result data and put data.editorValue inside the editor
-        var previewFrame = document.getElementById('result');
-        var preview =  previewFrame.contentDocument ||  previewFrame.contentWindow.document;
-        preview.open();
-        preview.write(pastcode);
-        preview.close();
-        codeeditor.setValue(data.editorValue);
+
+              var cdn = "<script src='https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.5.7/p5.min.js'></script><script src='https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.5.7/addons/p5.dom.min.js'></script><script>"
+              var endcdn="</script></body></html>"
+              pastcode = cdn + data.editorValue + endcdn;
+            
+                
+                // take the result data and put data.editorValue inside the editor
+              var previewFrame = document.getElementById('result');
+              var preview =  previewFrame.contentDocument ||  previewFrame.contentWindow.document;
+              preview.open();
+              preview.write(pastcode);
+              preview.close();
+              codeeditor.setValue(data.editorValue);
+              // console.log(data.basicElements.left,data.basicElements.left);
+
+              var quest = document.getElementById("question")
+              // quest.style.left= data.basicElements.left
+              // quest.style.top= data.basicElements.left
+
 
             }
           });
@@ -99,6 +108,8 @@ function createVersion(id) {
     type: "GET",
     url: 'http://localhost:8080/api/versions',
     success: function(data) {
+      console.log(data)
+
       for(var i = 0; i < data.length; i++) {
         createVersion(data[i]._id)
       }
@@ -123,17 +134,32 @@ saveButton.addEventListener('click', function(e) {
   // Don't follow the link
   e.preventDefault();
 
+  // Grab
+  var questions = document.querySelectorAll('.questbox');
+  var questionsData = [];
+  for(var i = 0; i < questions.length; i++) {
+    questionsData.push({
+      top: 1,
+      left: 2 // $(questions[i]).position
+    })
+  }
+
+
   // save a version
   $.ajax({
     type: "POST",
     url: 'http://localhost:8080/api/versions',
-    data: {
-      editorValue: codeeditor.getValue()
-    },
+    contentType : 'application/json',
+    data: JSON.stringify({
+      editorValue: codeeditor.getValue(),
+      basicElements: questionsData
+    }),
     success: function(data) {
       // THE ID IS NOT THERE!
       createVersion(data._id);
+      // console.log(JSON.stringify(basicElements[0].getJSON()))
     }
+
   });
 
 // $('.version').connections({

@@ -58,9 +58,11 @@ router.route('/versions')
 
     // create a bear (accessed at POST http://localhost:8080/api/bears)
     .post(function(req, res) {
+        console.log(req.body)
         console.log("creating a version")
         var version = new Version();      // create a new instance of the Bear model
         version.editorValue = req.body.editorValue;  // set the bears name (comes from the request)
+        version.basicElements= req.body.basicElements;
         // version.bearType = req.body.bearType;  // set the bears type (comes from the request)
 
         // save the bear and check for errors
@@ -104,6 +106,8 @@ router.route('/versions/:version_id')
                 res.send(err);
         
         version.editorValue = req.body.editorValue;  // update the bears info
+        version.basicElements= req.body.basicElements;
+
 
          // save the bear
             version.save(function(err) {

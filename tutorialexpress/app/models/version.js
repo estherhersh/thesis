@@ -2,7 +2,8 @@ var mongoose     = require('mongoose');
 var Schema       = mongoose.Schema;
 
 var VersionSchema   = new Schema({
-    editorValue: String
+    editorValue: String,
+    basicElements: {top: Number,left:Number }
     // bearType: String
 });
 
