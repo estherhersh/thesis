@@ -114,16 +114,28 @@ textButton.addEventListener('click', addText);
 // Code to add questions
 // ---------------------------------------------
 
-function addQuestion(left,top) {
+function addQuestion(top,left,question,answer) {
   // Create a new div 
+  // var answer= "test answer"
   var maincanvas= document.getElementById("maincanvas")
 
   var questbox = document.createElement('div')
   questbox.className = 'questbox';
   questbox.innerHTML = '<textarea id=question rows="1" cols="50" placeholder="QUESTION"></textarea><br><textarea id=answer rows="6" cols="50" placeholder="Type Here..."></textarea>'
- 
-  maincanvas.appendChild(questbox);
-  $(questbox).draggable({cursor: "crosshair"})
+    maincanvas.appendChild(questbox);
+
+  $(questbox).offset({ top: top, left: left });
+  $('#question').val(question);
+  $('#answer').val(answer);
+
+  $(questbox).draggable({ drag: function(){
+            var offset = $(this).offset();
+            var xPos = offset.left;
+            var yPos = offset.top;
+        }})
+
+
+
 }
 
 var questButton = document.getElementById('quest');

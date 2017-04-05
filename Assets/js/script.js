@@ -62,13 +62,16 @@ function createVersion(id) {
   $(version).find('a').click(function(e) {
 
     e.preventDefault();
+
     var id = $(this).attr('id');
+     // $( "div" ).removeClass( "questbox" )
     // console.log('I clicked ' + id)
 
     // make a get request to /api/versions/{id}
           $.ajax({
             type: "GET",
             url: 'http://localhost:8080/api/versions/'+id,
+            contentType : 'application/json',
             success: function(data) {
               // console.log(data.editorValue)
 
@@ -84,12 +87,15 @@ function createVersion(id) {
               preview.open();
               preview.write(pastcode);
               preview.close();
-              codeeditor.setValue(data.editorValue);
-              // console.log(data.basicElements.left,data.basicElements.left);
+              codeeditor.setValue(data.editorValue);  
 
-              var quest = document.getElementById("question")
-              // quest.style.left= data.basicElements.left
-              // quest.style.top= data.basicElements.left
+              $(".questbox").empty();
+              //run through the array of basic elements and draw them to the canvas
+              for(i=0;i<data.basicElements.length;i++){
+              addQuestion(data.basicElements[i].top,data.basicElements[i].left,data.basicElements[i].question,data.basicElements[i].answer)
+              console.log(data.basicElements[i])
+              // addQuestion(656,435)
+              }
 
 
             }
@@ -115,9 +121,6 @@ function createVersion(id) {
       }
     }
   });
-
-
-
 // Create new versions
 // ---------------------------
 
@@ -131,16 +134,25 @@ var versionsCol = document.getElementById('versions');
 saveButton.addEventListener('click', function(e) {
 
 
+
+
   // Don't follow the link
   e.preventDefault();
 
   // Grab
   var questions = document.querySelectorAll('.questbox');
+  var question = document.querySelectorAll('textarea#question');
+  var answer = document.querySelectorAll('textarea#answer');
+
   var questionsData = [];
   for(var i = 0; i < questions.length; i++) {
+        var top= $(questions[i]).position().top 
+        console.log(top)
     questionsData.push({
-      top: 1,
-      left: 2 // $(questions[i]).position
+      top: $(questions[i]).offset().top ,
+      left: $(questions[i]).offset().left, 
+      answer: $(answer[i]).val(), 
+      question: $(question[i]).val() 
     })
   }
 
