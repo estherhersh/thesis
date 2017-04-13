@@ -1,0 +1,131 @@
+body {
+  padding-top: 50px;
+  padding-left: 50px;
+  padding-bottom: 0px;
+  color: #E98E51;
+  background-color: #E98E51;
+}
+h1{
+  text-align: center;
+}
+
+.btn {
+    font-weight: 700;
+    letter-spacing: 1px;
+    width:150px;
+    height:50px;
+    text-transform: uppercase;
+}
+.navbar{
+   box-shadow: 1px .1px 1px .01px #393C3D;
+
+}
+ 
+.nav-tabs{
+  padding-left: 15px;
+  margin-top:-20px;
+  border: none;
+
+}
+
+#maincanvas {
+  background-color:#FFFFFF;
+  min-height: 1094px;
+ box-shadow: 1px 1px 15px 1px #393C3D;
+
+}
+
+
+#buttons{
+     box-shadow: 1px 1px 15px 1px #393C3D;
+     border-radius: 5px;
+}
+
+#versions {
+  background-color:#9BD0D4;
+  position:relative;
+  min-height: 1104px;
+  margin-right: 0px;
+
+}
+
+.sidebar{
+    background-color:#9BD0D4;
+    position:absolute;
+    width: 500px;
+    right:-250px;
+    margin-right: 0px;
+    box-shadow:-3px 3px 15px 2px #393C3D;
+
+}
+.sidebar:hover{
+
+    right:-20px;
+
+
+
+}
+
+.version {
+  background-color: #fff;
+  border: 1px solid #000;
+  border-radius: 10px;
+  padding: .2em;
+  margin: 2em;
+  width: 160px;
+}
+#versionName{
+  border: 0px;
+
+}
+
+.container-save {
+  position:center;
+  margin-top: 15px;
+}
+#singlebutton{
+    border-color: #fff;
+    background-color:#65BABF ;
+
+}
+
+.p5editor{
+      padding:10px;
+    border-color: #000000;
+    border-width: 8px;
+    background-color:#65BABF ;
+}
+.frame{
+    padding:5px;
+    border-color: #000000;
+    border-width: 8px;
+    background-color:#65BABF ;
+    height:400px;
+}
+
+.content {
+    padding:20px;
+}
+
+#result {
+  border-style: solid;
+  border-color: #000000;
+  border-width: 2px;
+  background-color: white;
+}
+.related{
+    border-radius:90px;
+    border:9px ;
+    color: rgba(0,0,0,0.7);
+}
+
+textarea {
+  background: #fff; 
+  border: 6px solid #65BABF;
+  font-size: 22px; 
+  outline:none;
+  margin: 0 auto;
+
+}
+
+
