@@ -64,28 +64,6 @@
 // }
 
 
-// function addText() {
-// }
-// addText.prototype= new Element();
-// addText.prototype.innerHTML='<textarea id=text rows="1" cols="50" placeholder="Type Here..."></textarea>'
-// var textButton = document.getElementById('textbutton');
-// textButton.addEventListener('click', addText);
-
-  // Create a new div 
-  // var maincanvas= document.getElementById("maincanvas")
-  // var textbox = document.createElement('div')
-  // textbox.className = 'textbox';
-  // Add it to the main canvas
-  // maincanvas.appendChild(textbox);
-  // $(textbox).draggable({
-  //     drag: function(){
-  //           var offset = $(this).offset();
-  //           var xPos = offset.left;
-  //           var yPos = offset.top;
-  //           $('#posX').text('x: ' + xPos);
-  //           $('#posY').text('y: ' + yPos);
-  //       }})
-// }
 
 
 
@@ -97,7 +75,10 @@ function addText() {
   var maincanvas= document.getElementById("maincanvas")
   var textbox = document.createElement('div')
   textbox.className = 'textbox';
-  textbox.innerHTML = '<textarea id=text rows="1" cols="50" placeholder="Type Here..."></textarea>'
+  textbox.innerHTML = '<textarea rows="2" id=text cols="50" placeholder="Type Here..."></textarea>'
+  console.log(textbox.rows)
+
+
   // Add it to the main canvas
   maincanvas.appendChild(textbox);
   $(textbox).draggable({
@@ -121,12 +102,12 @@ function addQuestion(top,left,question,answer) {
 
   var questbox = document.createElement('div')
   questbox.className = 'questbox';
-  questbox.innerHTML = '<textarea id=question rows="1" cols="50" placeholder="QUESTION"></textarea><br><textarea id=answer rows="6" cols="50" placeholder="Type Here..."></textarea>'
+  questbox.innerHTML = '<textarea rows="2" id=question cols="50" placeholder="QUESTION"></textarea><br><textarea id=answer rows="6" cols="50" placeholder="Type Here..."></textarea>'
     maincanvas.appendChild(questbox);
 
   $(questbox).offset({ top: top, left: left });
-  $('#question').val(question);
-  $('#answer').val(answer);
+  $(questbox).find('#question').val(question);
+  $(questbox).find('#answer').val(answer);
 
   $(questbox).draggable({ drag: function(){
             var offset = $(this).offset();
@@ -179,3 +160,7 @@ $(document).ready(function(){
 
 
 });
+
+
+
+

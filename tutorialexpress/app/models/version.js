@@ -3,7 +3,7 @@ var Schema       = mongoose.Schema;
 
 var VersionSchema   = new Schema({
     editorValue: String,
-    basicElements: {top: Number,left:Number }
+    basicElements: {top: Number,left:Number, question: String, answer: String }
     // bearType: String
 });
 

@@ -117,9 +117,12 @@ body {
 }
 
 textarea {
-  background: #fff; /* This ruins default border */
+  background: #fff; 
   border: 6px solid #65BABF;
   font-size: 22px; 
   outline:none;
+  margin: 0 auto;
+
 }
+
 

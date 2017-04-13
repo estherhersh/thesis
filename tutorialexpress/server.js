@@ -63,16 +63,19 @@ router.route('/versions')
         var version = new Version();      // create a new instance of the Bear model
         version.editorValue = req.body.editorValue;  // set the bears name (comes from the request)
         version.basicElements= req.body.basicElements;
+        version.id= req.body._id
         // version.bearType = req.body.bearType;  // set the bears type (comes from the request)
 
         // save the bear and check for errors
         version.save(function(err) {
+             version.id= req.body._id
+            console.log(version.id)
             console.log("callback from save")
             console.log(err);
             if (err)
                 res.json({error:err});
 
-            res.json({ message: 'Version created!'/*, _id: 'REPLACEME'*/ });
+            res.json({ _id: version.id});
         });
         
     });

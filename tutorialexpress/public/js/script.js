@@ -1,3 +1,6 @@
+
+
+
 //Create text editor
 var basicElements=[];
 var code
@@ -93,7 +96,7 @@ function createVersion(id) {
               //run through the array of basic elements and draw them to the canvas
               for(i=0;i<data.basicElements.length;i++){
               addQuestion(data.basicElements[i].top,data.basicElements[i].left,data.basicElements[i].question,data.basicElements[i].answer)
-              console.log(data.basicElements[i])
+              console.log(data.basicElements[i].top,data.basicElements[i].left,data.basicElements[i].question,data.basicElements[i].answer)
               // addQuestion(656,435)
               }
 
@@ -141,13 +144,13 @@ saveButton.addEventListener('click', function(e) {
 
   // Grab
   var questions = document.querySelectorAll('.questbox');
-  var question = document.querySelectorAll('textarea#question');
-  var answer = document.querySelectorAll('textarea#answer');
+  var question = document.querySelectorAll('#question');
+  var answer = document.querySelectorAll('#answer');
 
   var questionsData = [];
   for(var i = 0; i < questions.length; i++) {
-        var top= $(questions[i]).position().top 
-        console.log(top)
+        // var top= $(questions[i]).position().top 
+        // console.log(top)
     questionsData.push({
       top: $(questions[i]).offset().top ,
       left: $(questions[i]).offset().left, 
@@ -169,10 +172,16 @@ saveButton.addEventListener('click', function(e) {
     success: function(data) {
       // THE ID IS NOT THERE!
       createVersion(data._id);
-      // console.log(JSON.stringify(basicElements[0].getJSON()))
+      console.log(data._id)
+
+      console.log(basicElements)
     }
 
+
   });
+
+
+
 
 // $('.version').connections({
 //   to: '.version',
