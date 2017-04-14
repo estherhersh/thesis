@@ -25,10 +25,18 @@ $( "#codeeditor").change(submit_code());
 
 function submit_code()
 {
-    // codeeditor.save();
-    var cdn = "<script src='https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.5.7/p5.min.js'></script><script src='https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.5.7/addons/p5.dom.min.js'></script><script>"
-    var endcdn="</script></body></html>"
-    code = cdn + codeeditor.getValue() + endcdn;
+    var code = `
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+        <script src='https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.5.7/p5.min.js'></script>
+        <script src='https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.5.7/addons/p5.dom.min.js'></script>
+        <script>
+          try{ ${codeeditor.getValue()} }
+          catch(e){
+            document.write('<div style="margin:20px"><div class="alert alert-danger"><b>Error:</b> '+e.message+'</div></div>');
+          }
+        </script>
+      </body>
+    </html>`
 
     var previewFrame = document.getElementById('result');
     var preview =  previewFrame.contentDocument ||  previewFrame.contentWindow.document;
@@ -166,7 +174,8 @@ saveButton.addEventListener('click', function(e) {
     contentType : 'application/json',
     data: JSON.stringify({
       editorValue: codeeditor.getValue(),
-      basicElements: questionsData
+      basicElements: questionsData,
+      parentId: currentVersion
     }),
     success: function(data) {
       // THE ID IS NOT THERE!
