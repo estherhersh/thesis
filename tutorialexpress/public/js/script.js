@@ -17,6 +17,7 @@ var codeeditor = CodeMirror.fromTextArea(textarea, {
 });
 
 var currentVersion = '';
+var currentLevel = 0;
 
 
 //update code on change (only updates first time)
@@ -57,19 +58,14 @@ setInterval(submit_code, 10000)
 // ---------------------------------------------
 
 var counter = 1;
-var id;
-var level= counter;
-var parentId=currentVersion;
 
 function createVersion(id,level,parentId) {
-
-
- row = $('#sidebar-row-'+level)
-    if(!row.length){
-      row = $(`<div id="sidebar-row-${level}" class="sidebar-level"></div>`)
-      $('.sidebar').append(row)
-      // versionsCol.appendChild(row)
-    }
+  row = $('#sidebar-row-'+level)
+  if(!row.length){
+    row = $(`<div id="sidebar-row-${level}" class="sidebar-level"></div>`)
+    $('.sidebar').append(row)
+    // versionsCol.appendChild(row)
+  }
     
   // Create a new div DOM element
   // var version = document.createElement('div')
@@ -81,24 +77,29 @@ function createVersion(id,level,parentId) {
   //version.innerHTML = ' <input id="'+id+'" placeholder="Version' + counter + '" rows= 1>' ;
   // version.innerHTML = ` <a id="${id}" href="#" class= "sidebar-version">Version ${counter}</a>`
 
-    versionElement= $(` <a id="${id}" href="#" class= "sidebar-version">Version ${counter}</a>`)
-     $(row).append(versionElement)
+  versionElement= $(`<div id="${id}" class="sidebar-version" data-level="${level}">Version ${counter}</div>`).click(function(e){
+    console.log("clicked")
+    selectVersion($(this).attr('id'), $(this).data('level'))
+  })
+  $(row).append(versionElement)
 
 
-    parentElement = $('#parentId')
-    // addConnection(versionElement, parentElement)
+  parentElement = $(`#${parentId}`)
+  console.log(parentElement)
 
-//     $('.sidebar-version').connections({
-//   to: '.sidebar-version',
-//   'class': 'related'
-// });
-// // console.log('connect')
-// $('.sidebar-version').connections('update');
+  // addConnection(versionElement, parentElement)
 
-// var c = $('connection');
-// setInterval(function() {
-//   c.connections('update');
-// }, 10);
+  //     $('.sidebar-version').connections({
+  //   to: '.sidebar-version',
+  //   'class': 'related'
+  // });
+  // // console.log('connect')
+  // $('.sidebar-version').connections('update');
+
+  // var c = $('connection');
+  // setInterval(function() {
+  //   c.connections('update');
+  // }, 10);
 
 
   // console.log(userInput)
@@ -107,56 +108,50 @@ function createVersion(id,level,parentId) {
   // versionsCol.appendChild(version);
   // $(version).draggable({ containment: "parent"})
 
-  $(versionElement).find('a').click(function(e) {
-    console.log("clicked")
-
-    e.preventDefault();
-
-    var id = $(this).attr('id');
-    console.log(id)
-    
-    // make a get request to /api/versions/{id}
-    $.ajax({
-      type: "GET",
-      url: 'http://localhost:8080/api/versions/'+id,
-      contentType : 'application/json',
-      success: function(data) {
-        currentVersion = id;
-
-        var code = `
-            <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-            <script src='https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.5.7/p5.min.js'></script>
-            <script src='https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.5.7/addons/p5.dom.min.js'></script>
-            <script>
-              try{ ${data.editorValue} }
-              catch(e){
-                document.write('<div style="margin:20px"><div class="alert alert-danger"><b>Error:</b> '+e.message+'</div></div>');
-              }
-            </script>
-          </body>
-        </html>`
-          
-          // take the result data and put data.editorValue inside the editor
-        codeeditor.setValue(data.editorValue);  
-        var previewFrame = document.getElementById('result');
-        var preview =  previewFrame.contentDocument ||  previewFrame.contentWindow.document;
-        preview.open()
-        preview.write(code)
-        preview.close()
-
-        $(".questbox").empty();
-        //run through the array of basic elements and draw them to the canvas
-        for(i=0;i<data.basicElements.length;i++){
-          addQuestion(data.basicElements[i].top,data.basicElements[i].left,data.basicElements[i].question,data.basicElements[i].answer)
-          console.log(data.basicElements[i].top,data.basicElements[i].left,data.basicElements[i].question,data.basicElements[i].answer)
-          // addQuestion(656,435)
-        }
-      }
-    });
-  });
   counter++;
 }
 
+function selectVersion(id, level){
+  // make a get request to /api/versions/{id}
+  $.ajax({
+    type: "GET",
+    url: 'http://localhost:8080/api/versions/'+id,
+    contentType : 'application/json',
+    success: function(data) {
+      currentVersion = id;
+      currentLevel = level;
+
+      var code = `
+          <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+          <script src='https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.5.7/p5.min.js'></script>
+          <script src='https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.5.7/addons/p5.dom.min.js'></script>
+          <script>
+            try{ ${data.editorValue} }
+            catch(e){
+              document.write('<div style="margin:20px"><div class="alert alert-danger"><b>Error:</b> '+e.message+'</div></div>');
+            }
+          </script>
+        </body>
+      </html>`
+        
+        // take the result data and put data.editorValue inside the editor
+      codeeditor.setValue(data.editorValue);  
+      var previewFrame = document.getElementById('result');
+      var preview =  previewFrame.contentDocument ||  previewFrame.contentWindow.document;
+      preview.open()
+      preview.write(code)
+      preview.close()
+
+      $(".questbox").empty();
+      //run through the array of basic elements and draw them to the canvas
+      for(i=0;i<data.basicElements.length;i++){
+        addQuestion(data.basicElements[i].top,data.basicElements[i].left,data.basicElements[i].question,data.basicElements[i].answer)
+        console.log(data.basicElements[i].top,data.basicElements[i].left,data.basicElements[i].question,data.basicElements[i].answer)
+        // addQuestion(656,435)
+      }
+    }
+  });
+}
 
 
 function loadChildren(data, id, level){
@@ -177,11 +172,11 @@ function loadChildren(data, id, level){
       let parentArray = data.filter(function(d){return d.parentId == "" })
       $.each(parentArray, function(j, p){
         createVersion(p._id, 0, "")
-        loadChildren(data, id, 1)
-
+        loadChildren(data, p._id, 1)
       })
 
-      // console.log(data)
+      // id = latest timestamp in data array
+      // selectVersion(id)
 
       // for(var i = 0; i < data.length; i++) {
       //   createVersion(data[i]._id)
@@ -234,10 +229,7 @@ saveButton.addEventListener('click', function(e) {
     }),
     success: function(data) {
       // THE ID IS NOT THERE!
-      createVersion(data._id, level, parentId);
-
-      console.log(data._id,level,parentId)
-
+      createVersion(data._id, currentLevel+1, data.parentId);
       console.log(basicElements)
     }
 

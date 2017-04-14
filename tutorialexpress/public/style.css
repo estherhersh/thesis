@@ -89,6 +89,7 @@ body {
   padding: .92em;
   margin: 2em;
   width: 160px;
+  cursor: pointer;
 }
 
 #versionName{
