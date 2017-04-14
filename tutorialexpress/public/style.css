@@ -74,22 +74,37 @@ body {
   width: 160px;
 }
 
-
-.sidebar-row{
-  margin-top: 150px;
-/*padding:200px;
-*/  margin: 62em;
-  width: 160px;
-}
-
-.sidebar-version{
- background-color: #fff;
+.sidebar-version.selected{
+  background-color: #e6e6e6;
   border: 1px solid #000;
   border-radius: 10px;
   padding: .92em;
   margin: 2em;
   width: 160px;
   cursor: pointer;
+}
+
+.sidebar-level{
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  flex-flow: row wrap;
+  align-content:center;
+}
+
+
+.sidebar-version{
+ background-color: #fff;
+  border: 1px solid #000;
+  border-radius: 10px;
+  padding: .82em;
+  margin: 1em;
+  width: 160px;
+cursor: pointer;
+  text-align: center;
+  flex-shrink: 0;
+  flex-basis: 5rem| auto;
+  align-self: auto;
 }
 
 #versionName{
@@ -132,8 +147,8 @@ body {
   background-color: white;
 }
 .related{
-    border-radius:90px;
-    border:9px ;
+/*    border-radius:90px;
+*/    border:9px ;
     color: rgba(0,0,0,0.7);
 }
 

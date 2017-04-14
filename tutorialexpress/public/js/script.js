@@ -81,6 +81,7 @@ function createVersion(id,level,parentId) {
     console.log("clicked")
     selectVersion($(this).attr('id'), $(this).data('level'))
   })
+  versionElement.css("margin-left",counter*20+"px")
   $(row).append(versionElement)
 
 
@@ -89,17 +90,17 @@ function createVersion(id,level,parentId) {
 
   // addConnection(versionElement, parentElement)
 
-  //     $('.sidebar-version').connections({
-  //   to: '.sidebar-version',
-  //   'class': 'related'
-  // });
-  // // console.log('connect')
-  // $('.sidebar-version').connections('update');
+      $(`#${parentId}`).connections({
+    to: `#${id}`,
+    'class': 'related'
+  });
+  // console.log('connect')
+  $('.sidebar-version').connections('update');
 
-  // var c = $('connection');
-  // setInterval(function() {
-  //   c.connections('update');
-  // }, 10);
+  var c = $('connection');
+  setInterval(function() {
+    c.connections('update');
+  }, 10);
 
 
   // console.log(userInput)
@@ -113,6 +114,9 @@ function createVersion(id,level,parentId) {
 
 function selectVersion(id, level){
   // make a get request to /api/versions/{id}
+  $('.sidebar-version').removeClass('selected')
+  $(`#${id}`).addClass('selected')
+  
   $.ajax({
     type: "GET",
     url: 'http://localhost:8080/api/versions/'+id,
