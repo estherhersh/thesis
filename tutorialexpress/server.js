@@ -60,15 +60,15 @@ router.route('/versions')
     .post(function(req, res) {
         console.log(req.body)
         console.log("creating a version")
-        var version = new Version();      // create a new instance of the Bear model
-        version.editorValue = req.body.editorValue;  // set the bears name (comes from the request)
-        version.basicElements= req.body.basicElements;
+        var version = new Version()
+        version.editorValue = req.body.editorValue
+        version.basicElements= req.body.basicElements
+        version.parentId = req.body.parentId
         version.id= req.body._id
-        // version.bearType = req.body.bearType;  // set the bears type (comes from the request)
 
-        // save the bear and check for errors
+        // save the version and check for errors
         version.save(function(err) {
-             version.id= req.body._id
+            version.id= req.body._id
             console.log(version.id)
             console.log("callback from save")
             console.log(err);
@@ -105,21 +105,20 @@ router.route('/versions/:version_id')
     .put(function(req, res) {
         // use our model to find the bear we want 
         Version.findById(req.params.version_id, function(err, version) {
-            if (err)
-                res.send(err);
+          if (err)
+              res.send(err);
         
-        version.editorValue = req.body.editorValue;  // update the bears info
-        version.basicElements= req.body.basicElements;
+          version.editorValue = req.body.editorValue;  // update the bears info
+          version.basicElements= req.body.basicElements;
+          version.parentId = req.body.parentId;
 
+          version.save(function(err) {
+              if (err)
+                  res.send(err);
 
-         // save the bear
-            version.save(function(err) {
-                if (err)
-                    res.send(err);
+              res.json({ message: 'version updated!' });
 
-                res.json({ message: 'version updated!' });
-
-            });
+          });
 
         });
 

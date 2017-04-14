@@ -1,6 +1,3 @@
-
-
-
 //Create text editor
 var basicElements=[];
 var code
@@ -19,6 +16,8 @@ var codeeditor = CodeMirror.fromTextArea(textarea, {
   }
 });
 
+var currentVersion = '';
+
 
 //update code on change (only updates first time)
 $( "#codeeditor").change(submit_code());
@@ -31,11 +30,11 @@ function submit_code()
     var endcdn="</script></body></html>"
     code = cdn + codeeditor.getValue() + endcdn;
 
-        var previewFrame = document.getElementById('result');
-        var preview =  previewFrame.contentDocument ||  previewFrame.contentWindow.document;
-        preview.open();
-        preview.write(code);
-        preview.close();
+    var previewFrame = document.getElementById('result');
+    var preview =  previewFrame.contentDocument ||  previewFrame.contentWindow.document;
+    preview.open();
+    preview.write(code);
+    preview.close();
 }
 
 //  CRASHES  WITH FOR LOOPS
@@ -55,7 +54,7 @@ function createVersion(id) {
   version.className = 'version';
   // var userInput = version.value;
   //version.innerHTML = ' <input id="'+id+'" placeholder="Version' + counter + '" rows= 1>' ;
-  version.innerHTML = ' <a id="'+id+'" href="#">Version' +counter+ '</a>' ;
+  version.innerHTML = ` <a id="${id}" href="#">Version ${counter}</a>`
   // console.log(userInput)
 
   // Add it to the #versions column 
@@ -67,42 +66,45 @@ function createVersion(id) {
     e.preventDefault();
 
     var id = $(this).attr('id');
-     // $( "div" ).removeClass( "questbox" )
-    // console.log('I clicked ' + id)
-
+    
     // make a get request to /api/versions/{id}
-          $.ajax({
-            type: "GET",
-            url: 'http://localhost:8080/api/versions/'+id,
-            contentType : 'application/json',
-            success: function(data) {
-              // console.log(data.editorValue)
+    $.ajax({
+      type: "GET",
+      url: 'http://localhost:8080/api/versions/'+id,
+      contentType : 'application/json',
+      success: function(data) {
+        currentVersion = id;
 
-
-              var cdn = "<script src='https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.5.7/p5.min.js'></script><script src='https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.5.7/addons/p5.dom.min.js'></script><script>"
-              var endcdn="</script></body></html>"
-              pastcode = cdn + data.editorValue + endcdn;
-            
-                
-                // take the result data and put data.editorValue inside the editor
-              var previewFrame = document.getElementById('result');
-              var preview =  previewFrame.contentDocument ||  previewFrame.contentWindow.document;
-              preview.open();
-              preview.write(pastcode);
-              preview.close();
-              codeeditor.setValue(data.editorValue);  
-
-              $(".questbox").empty();
-              //run through the array of basic elements and draw them to the canvas
-              for(i=0;i<data.basicElements.length;i++){
-              addQuestion(data.basicElements[i].top,data.basicElements[i].left,data.basicElements[i].question,data.basicElements[i].answer)
-              console.log(data.basicElements[i].top,data.basicElements[i].left,data.basicElements[i].question,data.basicElements[i].answer)
-              // addQuestion(656,435)
+        var pastcode = `
+            <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+            <script src='https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.5.7/p5.min.js'></script>
+            <script src='https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.5.7/addons/p5.dom.min.js'></script>
+            <script>
+              try{ ${data.editorValue} }
+              catch(e){
+                document.write('<div style="margin:20px"><div class="alert alert-danger"><b>Error:</b> '+e.message+'</div></div>');
               }
+            </script>
+          </body>
+        </html>`
+          
+          // take the result data and put data.editorValue inside the editor
+        codeeditor.setValue(data.editorValue);  
+        var previewFrame = document.getElementById('result');
+        var preview =  previewFrame.contentDocument ||  previewFrame.contentWindow.document;
+        preview.open()
+        preview.write(pastcode)
+        preview.close()
 
-
-            }
-          });
+        $(".questbox").empty();
+        //run through the array of basic elements and draw them to the canvas
+        for(i=0;i<data.basicElements.length;i++){
+          addQuestion(data.basicElements[i].top,data.basicElements[i].left,data.basicElements[i].question,data.basicElements[i].answer)
+          console.log(data.basicElements[i].top,data.basicElements[i].left,data.basicElements[i].question,data.basicElements[i].answer)
+          // addQuestion(656,435)
+        }
+      }
+    });
   });
 
   counter++;
@@ -124,6 +126,7 @@ function createVersion(id) {
       }
     }
   });
+
 // Create new versions
 // ---------------------------
 
@@ -135,10 +138,6 @@ var versionsCol = document.getElementById('versions');
 
 // When that button is clicked
 saveButton.addEventListener('click', function(e) {
-
-
-
-
   // Don't follow the link
   e.preventDefault();
 
@@ -179,7 +178,7 @@ saveButton.addEventListener('click', function(e) {
 
 
   });
-
+})
 
 
 
@@ -196,7 +195,4 @@ saveButton.addEventListener('click', function(e) {
 // }, 10);
 
   // Increment counter for next version
-  
-})
-
-
+ 

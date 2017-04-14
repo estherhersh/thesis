@@ -1,72 +1,3 @@
-// function BasicElement(divIn){
-//   this.div = divIn;
-
-
-//   maincanvas.appendChild(this.div);
-//   $(this.div).draggable({cursor: "crosshair"})
-
-//   this.getPosition=function(){
-//     return $(this.div).position();
-//   }
-
-  // this.getJSON=function(){
-  //   // myString = ''
-
-
-  //   return {"position": this.getPosition(),"array":[]};
-  // }
-
-
-// }
-
-
-/* 
-{
- id: "sdofijdfogij",
- top: 123,
- left: 2234,
- headingText: "dfgdf",
- otherText: "gdfgdf"
-}
-*/
-
-
-
-// function Element(dataElement) {
-//   console.log(dataElement)
-//   this.id=dataElement._id;
-
-//   this.pos={"x":dataElement.xPos, "y":dataElement.yPos};
-//   // this.content=dataElement.content;
-  
-//   // this.type=dataElement.type;
-
-//   // this.thisDiv=document.createElement('div')
-//   // var maincanvas= document.getElementById("maincanvas")
-//   // this.className = type
-//   // maincanvas.appendChild(type);
-
-
-//   // this.display =function(){
-
-//   // }
-//   // this.getJSONInfo=function(){
-//   // }
-//   // this.addDragability=function(){
-
-//   //   $(this.thisDiv).draggable({
-//   //     drag: function(){
-//   //           var offset = $(this).offset();
-//   //           var xPos = offset.left;
-//   //           var yPos = offset.top;
-//   //       }})
-//   // }
-// }
-
-
-
-
-
 // Code to add textboxes
 // ---------------------------------------------
 
@@ -134,31 +65,28 @@ function addArduino() {
   // Add it to the main canvas
   maincanvas.appendChild(arduino);
   $(arduino).draggable({cursor: "crosshair"})
-
 }
 
-var arduinobutton = document.getElementById('arduino');
-arduinobutton.addEventListener('click', addArduino);
 
 
 
 
 
 
-
-
-var maincanvas;
+var maincanvas, arduinobutton;
 
 ///make elements draggable
 $(document).ready(function(){
+  arduinobutton = document.getElementById('arduino');
+  arduinobutton.addEventListener('click', addArduino);
+
   //result is working
-    maincanvas= document.getElementById("maincanvas")
-    $(".frame").draggable();
+  maincanvas= document.getElementById("maincanvas")
+  $(".frame").draggable();
+  
   //not working  
-    $("#codeeditor").draggable();
-    $(".p5editor").draggable();
-
-
+  $("#codeeditor").draggable();
+  $(".p5editor").draggable();
 });
 
 
