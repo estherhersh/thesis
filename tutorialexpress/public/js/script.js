@@ -57,25 +57,63 @@ setInterval(submit_code, 10000)
 // ---------------------------------------------
 
 var counter = 1;
+var id;
+var level= counter;
+var parentId=currentVersion;
 
-function createVersion(id) {
+function createVersion(id,level,parentId) {
+
+
+ row = $('#sidebar-row-'+level)
+    if(!row.length){
+      row = $(`<div id="sidebar-row-${level}" class="sidebar-level"></div>`)
+      $('.sidebar').append(row)
+      // versionsCol.appendChild(row)
+    }
+    
   // Create a new div DOM element
-  var version = document.createElement('div')
-  version.className = 'version';
+  // var version = document.createElement('div')
+   // var versionElement = document.createElement('div')
+
+
+  // version.className = 'version';
   // var userInput = version.value;
   //version.innerHTML = ' <input id="'+id+'" placeholder="Version' + counter + '" rows= 1>' ;
-  version.innerHTML = ` <a id="${id}" href="#">Version ${counter}</a>`
+  // version.innerHTML = ` <a id="${id}" href="#" class= "sidebar-version">Version ${counter}</a>`
+
+    versionElement= $(` <a id="${id}" href="#" class= "sidebar-version">Version ${counter}</a>`)
+     $(row).append(versionElement)
+
+
+    parentElement = $('#parentId')
+    // addConnection(versionElement, parentElement)
+
+//     $('.sidebar-version').connections({
+//   to: '.sidebar-version',
+//   'class': 'related'
+// });
+// // console.log('connect')
+// $('.sidebar-version').connections('update');
+
+// var c = $('connection');
+// setInterval(function() {
+//   c.connections('update');
+// }, 10);
+
+
   // console.log(userInput)
 
   // Add it to the #versions column 
-  versionsCol.appendChild(version);
-  $(version).draggable({ containment: "parent"})
+  // versionsCol.appendChild(version);
+  // $(version).draggable({ containment: "parent"})
 
-  $(version).find('a').click(function(e) {
+  $(versionElement).find('a').click(function(e) {
+    console.log("clicked")
 
     e.preventDefault();
 
     var id = $(this).attr('id');
+    console.log(id)
     
     // make a get request to /api/versions/{id}
     $.ajax({
@@ -116,14 +154,15 @@ function createVersion(id) {
       }
     });
   });
-
   counter++;
 }
+
+
 
 function loadChildren(data, id, level){
   let childrenArray = data.filter(function(d){return d.parentId == id })
   $.each(childrenArray, function(i, d){
-    // createVersion(d._id, level)
+    createVersion(d._id, level,id)
     loadChildren(data, d._id, level+1)
   })
 }
@@ -137,15 +176,17 @@ function loadChildren(data, id, level){
     success: function(data) {
       let parentArray = data.filter(function(d){return d.parentId == "" })
       $.each(parentArray, function(j, p){
-        // createVersion(p._id, 0)
+        createVersion(p._id, 0, "")
         loadChildren(data, id, 1)
+
       })
 
-      console.log(data)
-      for(var i = 0; i < data.length; i++) {
-        createVersion(data[i]._id)
-        currentVersion = data[i]._id
-      }
+      // console.log(data)
+
+      // for(var i = 0; i < data.length; i++) {
+      //   createVersion(data[i]._id)
+      //   currentVersion = data[i]._id
+      // }
     }
   });
 
@@ -156,7 +197,7 @@ function loadChildren(data, id, level){
 var saveButton = document.getElementById('singlebutton');
 
 // Find the column to put the versions in
-var versionsCol = document.getElementById('versions');
+// var versionsCol = document.getElementById('versions');
 
 // When that button is clicked
 saveButton.addEventListener('click', function(e) {
@@ -193,8 +234,9 @@ saveButton.addEventListener('click', function(e) {
     }),
     success: function(data) {
       // THE ID IS NOT THERE!
-      createVersion(data._id);
-      console.log(data._id)
+      createVersion(data._id, level, parentId);
+
+      console.log(data._id,level,parentId)
 
       console.log(basicElements)
     }

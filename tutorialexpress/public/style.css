@@ -50,8 +50,11 @@ body {
     background-color:#9BD0D4;
     position:absolute;
     width: 500px;
+    height: 100%;
     right:-250px;
     margin-right: 0px;
+    margin-top: 30px;
+
     box-shadow:-3px 3px 15px 2px #393C3D;
     
 
@@ -59,8 +62,6 @@ body {
 .sidebar:hover{
 
     right:-20px;
-
-
 
 }
 
@@ -72,6 +73,24 @@ body {
   margin: 2em;
   width: 160px;
 }
+
+
+.sidebar-row{
+  margin-top: 150px;
+/*padding:200px;
+*/  margin: 62em;
+  width: 160px;
+}
+
+.sidebar-version{
+ background-color: #fff;
+  border: 1px solid #000;
+  border-radius: 10px;
+  padding: .92em;
+  margin: 2em;
+  width: 160px;
+}
+
 #versionName{
   border: 0px;
 
