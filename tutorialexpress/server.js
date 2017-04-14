@@ -57,7 +57,7 @@ router.get('/', function(req, res) {
 router.route('/versions')
 
     // create a bear (accessed at POST http://localhost:8080/api/bears)
-    .post(function(req, res) {
+    .post(function(req, res) {      
         console.log(req.body)
         console.log("creating a version")
         var version = new Version()

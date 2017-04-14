@@ -45,6 +45,8 @@ function submit_code()
     preview.close();
 }
 
+setInterval(submit_code, 10000)
+
 //  CRASHES  WITH FOR LOOPS
 //  codeeditor.on('change', function(e) {
 //     setTimeout(submit_code, 5000);
@@ -83,7 +85,7 @@ function createVersion(id) {
       success: function(data) {
         currentVersion = id;
 
-        var pastcode = `
+        var code = `
             <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
             <script src='https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.5.7/p5.min.js'></script>
             <script src='https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.5.7/addons/p5.dom.min.js'></script>
@@ -101,7 +103,7 @@ function createVersion(id) {
         var previewFrame = document.getElementById('result');
         var preview =  previewFrame.contentDocument ||  previewFrame.contentWindow.document;
         preview.open()
-        preview.write(pastcode)
+        preview.write(code)
         preview.close()
 
         $(".questbox").empty();
@@ -119,7 +121,6 @@ function createVersion(id) {
 }
 
 
-
 // Load existing versions
 // ---------------------------
 
@@ -127,10 +128,23 @@ function createVersion(id) {
     type: "GET",
     url: 'http://localhost:8080/api/versions',
     success: function(data) {
+      $.each(data.filter(d => d.parentId == "" ), (j, p) => {
+        let level = 0
+        // createVersion(p._id, level)
+        let children = data.filter(d => d.parentId == p._id)
+        
+        while(children.length > 0){
+          level++ 
+          for(let i = 0; i < children.length; i++){
+            createVersion(children[i], level)
+          }
+        }
+      })
       console.log(data)
 
       for(var i = 0; i < data.length; i++) {
         createVersion(data[i]._id)
+        currentVersion = data[i]._id
       }
     }
   });
