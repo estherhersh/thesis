@@ -121,7 +121,8 @@ function createVersion(id) {
 }
 
 function loadChildren(data, id, level){
-  $.each(data.filter(d => d.parentId == id), (i, d) => {
+  let childrenArray = data.filter(function(d){return d.parentId == id })
+  $.each(childrenArray, function(i, d){
     // createVersion(d._id, level)
     loadChildren(data, d._id, level+1)
   })
@@ -134,7 +135,8 @@ function loadChildren(data, id, level){
     type: "GET",
     url: 'http://localhost:8080/api/versions',
     success: function(data) {
-      $.each(data.filter(d => d.parentId == "" ), (j, p) => {
+      let parentArray = data.filter(function(d){return d.parentId == "" })
+      $.each(parentArray, function(j, p){
         // createVersion(p._id, 0)
         loadChildren(data, id, 1)
       })
