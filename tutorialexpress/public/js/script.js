@@ -17,7 +17,7 @@ var codeeditor = CodeMirror.fromTextArea(textarea, {
 });
 
 var currentVersion = '';
-var currentLevel = 0;
+var currentLevel = -1;
 
 
 //update code on change (only updates first time)
@@ -229,7 +229,9 @@ saveButton.addEventListener('click', function(e) {
     }),
     success: function(data) {
       // THE ID IS NOT THERE!
-      createVersion(data._id, currentLevel+1, data.parentId);
+      currentVersion = data._id;
+      currentLevel++;
+      createVersion(data._id, currentLevel, data.parentId);
       console.log(basicElements)
     }
 
