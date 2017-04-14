@@ -120,6 +120,12 @@ function createVersion(id) {
   counter++;
 }
 
+function loadChildren(data, id, level){
+  $.each(data.filter(d => d.parentId == id), (i, d) => {
+    // createVersion(d._id, level)
+    loadChildren(data, d._id, level+1)
+  })
+}
 
 // Load existing versions
 // ---------------------------
@@ -129,19 +135,11 @@ function createVersion(id) {
     url: 'http://localhost:8080/api/versions',
     success: function(data) {
       $.each(data.filter(d => d.parentId == "" ), (j, p) => {
-        let level = 0
-        // createVersion(p._id, level)
-        let children = data.filter(d => d.parentId == p._id)
-        
-        while(children.length > 0){
-          level++ 
-          for(let i = 0; i < children.length; i++){
-            createVersion(children[i], level)
-          }
-        }
+        // createVersion(p._id, 0)
+        loadChildren(data, id, 1)
       })
-      console.log(data)
 
+      console.log(data)
       for(var i = 0; i < data.length; i++) {
         createVersion(data[i]._id)
         currentVersion = data[i]._id
