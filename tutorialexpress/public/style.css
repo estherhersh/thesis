@@ -54,7 +54,7 @@ body {
     right:-250px;
     margin-right: 0px;
     margin-top: 30px;
-
+    transition: all 1s ease;
     box-shadow:-3px 3px 15px 2px #393C3D;
     
 
@@ -80,7 +80,7 @@ body {
   border-radius: 10px;
   padding: .92em;
   margin: 2em;
-  width: 160px;
+  width: 100px;
   cursor: pointer;
 }
 
@@ -88,7 +88,7 @@ body {
   display: flex;
   justify-content: space-around;
   align-items: center;
-  flex-flow: row wrap;
+  flex-flow: row nowrap;
   align-content:center;
 }
 
@@ -99,7 +99,7 @@ body {
   border-radius: 10px;
   padding: .82em;
   margin: 1em;
-  width: 160px;
+  width: 100px;
 cursor: pointer;
   text-align: center;
   flex-shrink: 0;
@@ -147,9 +147,10 @@ cursor: pointer;
   background-color: white;
 }
 .related{
-/*    border-radius:90px;
-*/    border:9px ;
-    color: rgba(0,0,0,0.7);
+    border-radius:70px;
+    border: 4px solid #fff;
+/*    border-width:9px;
+*/    color: rgba(255,255,255,0.7);
 }
 
 textarea {

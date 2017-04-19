@@ -77,11 +77,10 @@ function createVersion(id,level,parentId) {
   //version.innerHTML = ' <input id="'+id+'" placeholder="Version' + counter + '" rows= 1>' ;
   // version.innerHTML = ` <a id="${id}" href="#" class= "sidebar-version">Version ${counter}</a>`
 
-  versionElement= $(`<div id="${id}" class="sidebar-version" data-level="${level}">Version ${counter}</div>`).click(function(e){
+  versionElement= $(`<input id="${id}" class="sidebar-version" data-level="${level}" placeholder= Version${counter}></input>`).click(function(e){
     console.log("clicked")
     selectVersion($(this).attr('id'), $(this).data('level'))
   })
-  versionElement.css("margin-left",counter*20+"px")
   $(row).append(versionElement)
 
 
@@ -93,9 +92,10 @@ function createVersion(id,level,parentId) {
       $(`#${parentId}`).connections({
     to: `#${id}`,
     'class': 'related'
+
   });
   // console.log('connect')
-  $('.sidebar-version').connections('update');
+  $(`#${parentId}`).connections('update');
 
   var c = $('connection');
   setInterval(function() {
@@ -116,7 +116,7 @@ function selectVersion(id, level){
   // make a get request to /api/versions/{id}
   $('.sidebar-version').removeClass('selected')
   $(`#${id}`).addClass('selected')
-  
+
   $.ajax({
     type: "GET",
     url: 'http://localhost:8080/api/versions/'+id,

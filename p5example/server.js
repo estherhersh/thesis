@@ -63,7 +63,9 @@ router.route('/versions')
         var version = new Version();      // create a new instance of the Bear model
         version.editorValue = req.body.editorValue;  // set the bears name (comes from the request)
         version.basicElements= req.body.basicElements;
+        version.parentId = req.body.parentId
         version.id= req.body._id
+        version.currentDate=req.body.currentDate;
         // version.bearType = req.body.bearType;  // set the bears type (comes from the request)
 
         // save the bear and check for errors
@@ -110,6 +112,9 @@ router.route('/versions/:version_id')
         
         version.editorValue = req.body.editorValue;  // update the bears info
         version.basicElements= req.body.basicElements;
+        version.parentId = req.body.parentId;
+        version.currentDate=req.body.currentDate
+
 
 
          // save the bear

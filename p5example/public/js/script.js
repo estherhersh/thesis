@@ -19,6 +19,8 @@ var codeeditor = CodeMirror.fromTextArea(textarea, {
   }
 });
 
+var currentVersion = '';
+var currentLevel = -1;
 
 //update code on change (only updates first time)
 $( "#codeeditor").change(submit_code());
@@ -26,17 +28,28 @@ $( "#codeeditor").change(submit_code());
 
 function submit_code()
 {
-    // codeeditor.save();
-    var cdn = "<script src='https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.5.7/p5.min.js'></script><script src='https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.5.7/addons/p5.dom.min.js'></script><script>"
-    var endcdn="</script></body></html>"
-    code = cdn + codeeditor.getValue() + endcdn;
+   var code = `
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+        <script src='https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.5.7/p5.min.js'></script>
+        <script src='https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.5.7/addons/p5.dom.min.js'></script>
+        <script>
+          try{ ${codeeditor.getValue()} }
+          catch(e){
+            document.write('<div style="margin:20px"><div class="alert alert-danger"><b>Error:</b> '+e.message+'</div></div>');
+          }
+        </script>
+      </body>
+    </html>`
 
-        var previewFrame = document.getElementById('result');
-        var preview =  previewFrame.contentDocument ||  previewFrame.contentWindow.document;
-        preview.open();
-        preview.write(code);
-        preview.close();
+    var previewFrame = document.getElementById('result');
+    var preview =  previewFrame.contentDocument ||  previewFrame.contentWindow.document;
+    preview.open();
+    preview.write(code);
+    preview.close();
 }
+
+setInterval(submit_code, 10000)
+
 
 //  CRASHES  WITH FOR LOOPS
 //  codeeditor.on('change', function(e) {
@@ -48,98 +61,142 @@ function submit_code()
 // ---------------------------------------------
 
 var counter = 1;
-var nodes= [];
-var edges= [];
+// var versionArray= [];
+// var edges= [];
+// var versionID= [];
 
-function createVersion(id) {
-  // Create a new div DOM element
-  var version = document.createElement('div')
-  version.className = 'version';
-  // var userInput = version.value;
-  //version.innerHTML = ' <input id="'+id+'" placeholder="Version' + counter + '" rows= 1>' ;
-  version.innerHTML = ' <a id="'+id+'" href="#">Version' +counter+ '</a>' ;
-  // console.log(userInput)
+// function createVersion(id) {
+//   // Create a new div DOM element
+//   var version = document.createElement('div')
+//   version.className = 'version';
+//   // var userInput = version.value;
+//   //version.innerHTML = ' <input id="'+id+'" placeholder="Version' + counter + '" rows= 1>' ;
+//   version.innerHTML = ' <a id="'+id+'" href="#">Version' +counter+ '</a>' ;
+//   // console.log(userInput)
+//   versionID.push(id)
+//   // console.log(versionID)
+//   // currentV= versionID[versionID.length-1]
+//   // console.log(id)
+       
+//     versionArray.push({id: id})
+//     edges.push({from: id, to: versionID[versionID.length-2]})
 
-
-var svg = '<svg xmlns="http://www.w3.org/2000/svg" width="390" height="65">' +
-            '<rect x="0" y="0" width="100%" height="100%" fill="#7890A7" stroke-width="20" stroke="#ffffff" ></rect>' +
-            '<foreignObject x="15" y="10" width="100%" height="100%">' +
-            '<div xmlns="http://www.w3.org/1999/xhtml" style="font-size:40px">' +
-            ' <em>I</em> am' +
-            '<span style="color:white; text-shadow:0 0 20px #000000;">' +
-            ' HTML in SVG!</span>' +
-            '</div>' +
-            '</foreignObject>' +
-            '</svg>';
-            
-    nodes.push({id: counter, label: "Version" + counter})
-    edges.push({from: counter, to: counter-1})
-
-  // var edges = new vis.DataSet([
-  //   {from: counter, to: counter-1}
-  // ]);
-
-var container = document.getElementById('versions');
-  var data = {
-    'nodes': nodes,
-    'edges': edges
-  };
-  var options = {};
-  var network = new vis.Network(container, data, options);
-
-  // Add it to the #versions column 
-  versionsCol.appendChild(version);
-  $(version).draggable({ containment: "parent"})
-
-  $(version).find('a').click(function(e) {
-
-    e.preventDefault();
-
-    var id = $(this).attr('id');
-     // $( "div" ).removeClass( "questbox" )
-    // console.log('I clicked ' + id)
-
-    // make a get request to /api/versions/{id}
-          $.ajax({
-            type: "GET",
-            url: 'http://localhost:8080/api/versions/'+id,
-            contentType : 'application/json',
-            success: function(data) {
-              // console.log(data.editorValue)
+function createVersion(id,level,parentId) {
+  row = $('#sidebar-row-'+level)
+  if(!row.length){
+    row = $(`<div id="sidebar-row-${level}" class="sidebar-level"></div>`)
+    $('.sidebar').append(row)
+    // versionsCol.appendChild(row)
+  }
 
 
-              var cdn = "<script src='https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.5.7/p5.min.js'></script><script src='https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.5.7/addons/p5.dom.min.js'></script><script>"
-              var endcdn="</script></body></html>"
-              pastcode = cdn + data.editorValue + endcdn;
-            
-                
-                // take the result data and put data.editorValue inside the editor
-              var previewFrame = document.getElementById('result');
-              var preview =  previewFrame.contentDocument ||  previewFrame.contentWindow.document;
-              preview.open();
-              preview.write(pastcode);
-              preview.close();
-              codeeditor.setValue(data.editorValue);  
-
-              $(".questbox").empty();
-              //run through the array of basic elements and draw them to the canvas
-              for(i=0;i<data.basicElements.length;i++){
-              // addQuestion(data.basicElements[i].top,data.basicElements[i].left,data.basicElements[i].question,data.basicElements[i].answer)
-              // console.log(data.basicElements[i].top,data.basicElements[i].left,data.basicElements[i].question,data.basicElements[i].answer)
-              // addQuestion(656,435)
-              addQuestion(data.basicElements[i].question,data.basicElements[i].answer)
-
-              }
+  versionElement= $(`<input id="${id}" class="sidebar-version" data-level="${level}" placeholder= Version${counter}></input>`).click(function(e){
+    console.log("clicked")
+    selectVersion($(this).attr('id'), $(this).data('level'))
+  })
+  $(row).append(versionElement)
 
 
-            }
-          });
+  parentElement = $(`#${parentId}`)
+  console.log(parentElement)
+  // console.log(currentDate)
+
+  // addConnection(versionElement, parentElement)
+
+      $(`#${parentId}`).connections({
+    to: `#${id}`,
+    'class': 'related'
   });
+  // console.log('connect')
+  $(`#${parentId}`).connections('update');
+
+  var c = $('connection');
+  setInterval(function() {
+    c.connections('update');
+  }, 10);
+  // Add it to the #versions column 
+  // versionsCol.appendChild(version);
+
+
+
+// var container = document.getElementById('versions');
+  // var data = {
+  //   'nodes': versionArray,
+  //   'edges': edges
+  // };
+  // var options = {};
+  // var network = new vis.Network(versionsCol, data, options);
+
+// $('.version' +counter).connections({
+//   to: '.version' -1,
+//   'class': 'related'
+// });
+// // console.log('connect')
+// $('.version').connections('update');
+
+// var c = $('connection');
+// setInterval(function() {
+//   c.connections('update');
+// }, 10);
 
   counter++;
 }
 
+  // $(version).draggable({ containment: "parent"})
 
+  function selectVersion(id, level){
+  // make a get request to /api/versions/{id}
+  $('.sidebar-version').removeClass('selected')
+  $(`#${id}`).addClass('selected')
+
+  $.ajax({
+    type: "GET",
+    url: 'http://localhost:8080/api/versions/'+id,
+    contentType : 'application/json',
+    success: function(data) {
+      currentVersion = id;
+      currentLevel = level;
+
+      var code = `
+          <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+          <script src='https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.5.7/p5.min.js'></script>
+          <script src='https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.5.7/addons/p5.dom.min.js'></script>
+          <script>
+            try{ ${data.editorValue} }
+            catch(e){
+              document.write('<div style="margin:20px"><div class="alert alert-danger"><b>Error:</b> '+e.message+'</div></div>');
+            }
+          </script>
+        </body>
+      </html>`
+        
+        // take the result data and put data.editorValue inside the editor
+      codeeditor.setValue(data.editorValue);  
+      var previewFrame = document.getElementById('result');
+      var preview =  previewFrame.contentDocument ||  previewFrame.contentWindow.document;
+      preview.open()
+      preview.write(code)
+      preview.close()
+
+      $(".questbox").empty();
+      //run through the array of basic elements and draw them to the canvas
+      for(i=0;i<data.basicElements.length;i++){
+        addQuestion(data.basicElements[i].question,data.basicElements[i].answer)
+        console.log(data.basicElements[i].question,data.basicElements[i].answer)
+        // addQuestion(656,435)
+      }
+    }
+  });
+}
+
+
+function loadChildren(data, id, level){
+  let childrenArray = data.filter(function(d){return d.parentId == id })
+  $.each(childrenArray, function(i, d){
+    createVersion(d._id, level,id)
+    loadChildren(data, d._id, level+1)
+  })
+}
 
 // Load existing versions
 // ---------------------------
@@ -148,13 +205,22 @@ var container = document.getElementById('versions');
     type: "GET",
     url: 'http://localhost:8080/api/versions',
     success: function(data) {
-      console.log(data)
+      let parentArray = data.filter(function(d){return d.parentId == "" })
+      $.each(parentArray, function(j, p){
+        createVersion(p._id, 0, "")
+        loadChildren(data, p._id, 1)
+      })
 
-      for(var i = 0; i < data.length; i++) {
-        createVersion(data[i]._id)
-      }
+      // id = latest timestamp in data array
+      // selectVersion(id)
+
+      // for(var i = 0; i < data.length; i++) {
+      //   createVersion(data[i]._id)
+      //   currentVersion = data[i]._id
+      // }
     }
   });
+
 // Create new versions
 // ---------------------------
 
@@ -162,14 +228,10 @@ var container = document.getElementById('versions');
 var saveButton = document.getElementById('singlebutton');
 
 // Find the column to put the versions in
-var versionsCol = document.getElementById('versions');
+// var versionsCol = document.getElementById('versions');
 
 // When that button is clicked
 saveButton.addEventListener('click', function(e) {
-
-
-
-
   // Don't follow the link
   e.preventDefault();
 
@@ -198,36 +260,20 @@ saveButton.addEventListener('click', function(e) {
     contentType : 'application/json',
     data: JSON.stringify({
       editorValue: codeeditor.getValue(),
-      basicElements: questionsData
-    }),
+      basicElements: questionsData,
+      parentId: currentVersion
+      // date: Date 
+
+          }),
     success: function(data) {
       // THE ID IS NOT THERE!
-      createVersion(data._id);
-      console.log(data._id)
-
+      currentVersion = data._id;
+      currentLevel++;
+      createVersion(data._id, currentLevel, data.parentId);
       console.log(basicElements)
     }
 
 
   });
-
-
-
-
-// $('.version').connections({
-//   to: '.version',
-//   'class': 'related'
-// });
-// console.log('connect')
-// // $('.version').connections('update');
-
-// var c = $('connection');
-// setInterval(function() {
-//   c.connections('update');
-// }, 10);
-
-  // Increment counter for next version
-  
 })
-
 
