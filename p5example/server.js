@@ -65,7 +65,7 @@ router.route('/versions')
         version.basicElements= req.body.basicElements;
         version.parentId = req.body.parentId
         version.id= req.body._id
-        version.currentDate=req.body.currentDate;
+        // version.currentDate=req.body.currentDate;
         // version.bearType = req.body.bearType;  // set the bears type (comes from the request)
 
         // save the bear and check for errors
@@ -113,7 +113,7 @@ router.route('/versions/:version_id')
         version.editorValue = req.body.editorValue;  // update the bears info
         version.basicElements= req.body.basicElements;
         version.parentId = req.body.parentId;
-        version.currentDate=req.body.currentDate
+        // version.currentDate=req.body.currentDate
 
 
 

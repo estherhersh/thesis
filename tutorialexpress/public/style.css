@@ -136,6 +136,11 @@ cursor: pointer;
     height:400px;
 }
 
+.p5div{
+/*  position: absolute;
+*/}
+
+
 .content {
     padding:20px;
 }
@@ -160,6 +165,10 @@ textarea {
   outline:none;
   margin: 0 auto;
 
+}
+
+.questbox{
+  width: 50%;
 }
 
 
