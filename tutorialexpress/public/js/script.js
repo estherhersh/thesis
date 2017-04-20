@@ -1,52 +1,52 @@
 //Create text editor
 var basicElements=[];
-var code
-var data_url
-var textarea = document.getElementById("codeeditor")
-var codeeditor = CodeMirror.fromTextArea(textarea, {
-  mode:  "javascript",
-  styleActiveLine: true,
-  lineNumbers: true,
-  lineWrapping: true,
-  autoCloseTags: true,
-  autoCloseBrackets: true,
-  theme : 'solarized',
-  extraKeys: {
-    "Tab": "indentMore"
-  }
-});
+var editor=[]
+// var code
+// var data_url
+// var codeeditor = CodeMirror.fromTextArea(textarea, {
+//   mode:  "javascript",
+//   styleActiveLine: true,
+//   lineNumbers: true,
+//   lineWrapping: true,
+//   autoCloseTags: true,
+//   autoCloseBrackets: true,
+//   theme : 'solarized',
+//   extraKeys: {
+//     "Tab": "indentMore"
+//   }
+// });
 
 var currentVersion = '';
 var currentLevel = -1;
 
 
 //update code on change (only updates first time)
-$( "#codeeditor").change(submit_code());
+// $( "#codeeditor").change(submit_code());
 
 
-function submit_code()
-{
-    var code = `
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-        <script src='https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.5.7/p5.min.js'></script>
-        <script src='https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.5.7/addons/p5.dom.min.js'></script>
-        <script>
-          try{ ${codeeditor.getValue()} }
-          catch(e){
-            document.write('<div style="margin:20px"><div class="alert alert-danger"><b>Error:</b> '+e.message+'</div></div>');
-          }
-        </script>
-      </body>
-    </html>`
+// function submit_code()
+// {
+//     var code = `
+//         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+//         <script src='https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.5.7/p5.min.js'></script>
+//         <script src='https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.5.7/addons/p5.dom.min.js'></script>
+//         <script>
+//           try{ ${codeeditor.getValue()} }
+//           catch(e){
+//             document.write('<div style="margin:20px"><div class="alert alert-danger"><b>Error:</b> '+e.message+'</div></div>');
+//           }
+//         </script>
+//       </body>
+//     </html>`
 
-    var previewFrame = document.getElementById('result');
-    var preview =  previewFrame.contentDocument ||  previewFrame.contentWindow.document;
-    preview.open();
-    preview.write(code);
-    preview.close();
-}
+//     var previewFrame = document.getElementById('result');
+//     var preview =  previewFrame.contentDocument ||  previewFrame.contentWindow.document;
+//     preview.open();
+//     preview.write(code);
+//     preview.close();
+// }
 
-setInterval(submit_code, 10000)
+// setInterval(submit_code, 10000)
 
 //  CRASHES  WITH FOR LOOPS
 //  codeeditor.on('change', function(e) {
@@ -78,14 +78,17 @@ function createVersion(id,level,parentId) {
   // version.innerHTML = ` <a id="${id}" href="#" class= "sidebar-version">Version ${counter}</a>`
 
   versionElement= $(`<input id="${id}" class="sidebar-version" data-level="${level}" placeholder= Version${counter}></input>`).click(function(e){
-    console.log("clicked")
+    // console.log("clicked")
+        // window.location.reload();
+
     selectVersion($(this).attr('id'), $(this).data('level'))
+
   })
   $(row).append(versionElement)
 
 
   parentElement = $(`#${parentId}`)
-  console.log(parentElement)
+  // console.log(parentElement)
 
   // addConnection(versionElement, parentElement)
 
@@ -113,9 +116,12 @@ function createVersion(id,level,parentId) {
 }
 
 function selectVersion(id, level){
+
   // make a get request to /api/versions/{id}
   $('.sidebar-version').removeClass('selected')
   $(`#${id}`).addClass('selected')
+
+
 
   $.ajax({
     type: "GET",
@@ -124,6 +130,18 @@ function selectVersion(id, level){
     success: function(data) {
       currentVersion = id;
       currentLevel = level;
+
+  $(".p5div").empty();
+      //run through the array of basic elements and draw them to the canvas
+      for(i=0;i<1;i++){
+
+        addP5(data.editor[i].top,data.editor[i].left)
+        // addP5(100,100)
+
+        console.log(data.editor[i].top,data.editor[i].left)
+        // addQuestion(656,435)
+      }
+
 
       var code = `
           <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
@@ -137,6 +155,8 @@ function selectVersion(id, level){
           </script>
         </body>
       </html>`
+
+
         
         // take the result data and put data.editorValue inside the editor
       codeeditor.setValue(data.editorValue);  
@@ -220,6 +240,21 @@ saveButton.addEventListener('click', function(e) {
     })
   }
 
+  var p5editor= document.querySelectorAll('.p5div');
+  // console.log(document.querySelectorAll('.p5div'))
+  var p5Data = [];
+  for(var i = 0; i < p5editor.length; i++) {
+        // var top= $(questions[i]).position().top 
+        // console.log(top)
+    p5Data.push({
+      top: $(p5editor[i]).offset().top,
+      left: $(p5editor[i]).offset().left
+    })
+      console.log(p5Data[i])
+
+  }
+
+
 
   // save a version
   $.ajax({
@@ -227,6 +262,7 @@ saveButton.addEventListener('click', function(e) {
     url: 'http://localhost:8080/api/versions',
     contentType : 'application/json',
     data: JSON.stringify({
+      editor: p5Data,
       editorValue: codeeditor.getValue(),
       basicElements: questionsData,
       parentId: currentVersion
@@ -236,11 +272,14 @@ saveButton.addEventListener('click', function(e) {
       currentVersion = data._id;
       currentLevel++;
       createVersion(data._id, currentLevel, data.parentId);
-      console.log(basicElements)
+      // console.log(basicElements)
     }
 
 
   });
+
+    window.location.reload();
+
 })
 
 

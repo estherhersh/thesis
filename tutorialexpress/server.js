@@ -61,6 +61,7 @@ router.route('/versions')
         console.log(req.body)
         console.log("creating a version")
         var version = new Version()
+        version.editor= req.body.editor
         version.editorValue = req.body.editorValue
         version.basicElements= req.body.basicElements
         version.parentId = req.body.parentId
@@ -107,7 +108,7 @@ router.route('/versions/:version_id')
         Version.findById(req.params.version_id, function(err, version) {
           if (err)
               res.send(err);
-        
+            version.editor= req.body.editor;
           version.editorValue = req.body.editorValue;  // update the bears info
           version.basicElements= req.body.basicElements;
           version.parentId = req.body.parentId;
