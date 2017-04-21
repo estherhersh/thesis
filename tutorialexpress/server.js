@@ -11,7 +11,7 @@ function listening(){
 }
 
 //allows express to hold static files like html(scif)
-app.use(express.static('website'));
+app.use(express.static('public'));
 
 // configure app to use bodyParser()
 // this will let us get the data from a POST
@@ -147,7 +147,7 @@ app.get('/', sendVersion);
 
 function sendVersion(req, res) {
     console.log("1.")
-    res.sendFile("index.html", { root: __dirname }); 
+    res.sendFile("public/index.html", { root: __dirname }); 
 }
 
 

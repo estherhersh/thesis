@@ -2,7 +2,7 @@
 
 
 //Create text editor
-var basicElements=[];
+// var basicElements=[];
 var code
 var data_url
 var textarea = document.getElementById("codeeditor")
@@ -48,7 +48,7 @@ function submit_code()
     preview.close();
 }
 
-setInterval(submit_code, 10000)
+// setInterval(submit_code, 10000)
 
 
 //  CRASHES  WITH FOR LOOPS
@@ -91,14 +91,14 @@ function createVersion(id,level,parentId) {
 
 
   versionElement= $(`<input id="${id}" class="sidebar-version" data-level="${level}" placeholder= Version${counter}></input>`).click(function(e){
-    console.log("clicked")
+    // console.log("clicked")
     selectVersion($(this).attr('id'), $(this).data('level'))
   })
   $(row).append(versionElement)
 
 
   parentElement = $(`#${parentId}`)
-  console.log(parentElement)
+  // console.log(parentElement)
   // console.log(currentDate)
 
   // addConnection(versionElement, parentElement)
@@ -180,7 +180,7 @@ function createVersion(id,level,parentId) {
 
       $(".questbox").empty();
       //run through the array of basic elements and draw them to the canvas
-      for(i=0;i<data.basicElements.length;i++){
+      for(i=0;i<2;i++){
         addQuestion(data.basicElements[i].question,data.basicElements[i].answer)
         console.log(data.basicElements[i].question,data.basicElements[i].answer)
         // addQuestion(656,435)
@@ -240,7 +240,8 @@ saveButton.addEventListener('click', function(e) {
   var question = document.querySelectorAll('#question');
   var answer = document.querySelectorAll('#answer');
 
-  var questionsData = [];
+    var questionsData=[];
+
   for(var i = 0; i < questions.length; i++) {
         // var top= $(questions[i]).position().top 
         // console.log(top)
@@ -270,10 +271,13 @@ saveButton.addEventListener('click', function(e) {
       currentVersion = data._id;
       currentLevel++;
       createVersion(data._id, currentLevel, data.parentId);
-      console.log(basicElements)
+      // console.log(basicElements)
     }
 
 
   });
+    window.location.reload();
+
+
 })
 

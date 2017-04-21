@@ -11,7 +11,7 @@ function listening(){
 }
 
 //allows express to hold static files like html(scif)
-app.use(express.static('website'));
+app.use(express.static('public'));
 
 // configure app to use bodyParser()
 // this will let us get the data from a POST
@@ -65,7 +65,6 @@ router.route('/versions')
         version.basicElements= req.body.basicElements;
         version.parentId = req.body.parentId
         version.id= req.body._id
-        version.currentDate=req.body.currentDate;
         // version.bearType = req.body.bearType;  // set the bears type (comes from the request)
 
         // save the bear and check for errors
@@ -113,7 +112,6 @@ router.route('/versions/:version_id')
         version.editorValue = req.body.editorValue;  // update the bears info
         version.basicElements= req.body.basicElements;
         version.parentId = req.body.parentId;
-        version.currentDate=req.body.currentDate
 
 
 
@@ -151,8 +149,7 @@ app.get('/', sendVersion);
 
 
 function sendVersion(req, res) {
-    console.log("1.")
-    res.sendFile("index.html", { root: __dirname }); 
+    res.sendFile("public/index.html", { root: __dirname }); 
 }
 
 

@@ -106,7 +106,7 @@ function addQuestion(question,answer) {
   questbox.className = 'questbox';
   questbox.innerHTML = '<textarea rows="1" id=question cols="50" placeholder="QUESTION"></textarea><br><textarea id=answer rows="6" cols="50" placeholder="Type Here..."></textarea>'
     // maincanvas.appendChild(questbox);
-        questColumn.appendChild(questbox);
+  questColumn.appendChild(questbox);
 
 
   // $(questbox).offset({ top: top, left: left });
@@ -123,8 +123,8 @@ function addQuestion(question,answer) {
 
 }
 
-var questButton = document.getElementById('quest');
-questButton.addEventListener('click', addQuestion);
+// var questButton = document.getElementById('quest');
+// questButton.addEventListener('click', addQuestion);
 
 // Code to add Arduino
 // ---------------------------------------------

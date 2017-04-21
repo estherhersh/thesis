@@ -5,8 +5,7 @@ var VersionSchema   = new Schema({
 	parentId: String,
     editorValue: String,
     // basicElements: {top: Number,left:Number, question: String, answer: String }
-    basicElements: {question: String, answer: String },
-    date: Date    // bearType: String
-});
+    basicElements: [{question: String, answer: String }],
+},{timestamps:true});
 
 module.exports = mongoose.model('Version', VersionSchema);

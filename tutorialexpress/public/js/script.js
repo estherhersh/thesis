@@ -1,6 +1,6 @@
 //Create text editor
-var basicElements=[];
-var editor=[]
+// var basicElements=[];
+// var editor=[];
 // var code
 // var data_url
 // var codeeditor = CodeMirror.fromTextArea(textarea, {
@@ -135,10 +135,12 @@ function selectVersion(id, level){
       //run through the array of basic elements and draw them to the canvas
       for(i=0;i<1;i++){
 
-        addP5(data.editor[i].top,data.editor[i].left)
+        // addP5(data.editor[i].top,data.editor[i].left)
+    addP5(data.editor.top,data.editor.left)
+
         // addP5(100,100)
 
-        console.log(data.editor[i].top,data.editor[i].left)
+        // console.log(data.editor[i].top,data.editor[i].left)
         // addQuestion(656,435)
       }
 
@@ -238,18 +240,19 @@ saveButton.addEventListener('click', function(e) {
       answer: $(answer[i]).val(), 
       question: $(question[i]).val() 
     })
+
   }
 
   var p5editor= document.querySelectorAll('.p5div');
   // console.log(document.querySelectorAll('.p5div'))
-  var p5Data = [];
+  // var p5Data = [];
   for(var i = 0; i < p5editor.length; i++) {
         // var top= $(questions[i]).position().top 
         // console.log(top)
-    p5Data.push({
+    var p5Data={
       top: $(p5editor[i]).offset().top,
       left: $(p5editor[i]).offset().left
-    })
+    }
       console.log(p5Data[i])
 
   }

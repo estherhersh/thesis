@@ -123,7 +123,7 @@ cursor: pointer;
 }
 
 .p5editor{
-      padding:10px;
+    padding:10px;
     border-color: #000000;
     border-width: 8px;
     background-color:#65BABF ;
@@ -168,7 +168,15 @@ textarea {
 }
 
 .questbox{
-  width: 50%;
-}
+/*  height:50px;
+  padding:10px;
+    border-color: #000000;
+    border-width: 8px;*/
+    background-color:#65BABF;
+/*    width:36%;
+*/
+float:left;
+/*position:relative;
+*/}
 
 
