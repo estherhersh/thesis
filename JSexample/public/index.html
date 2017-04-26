@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width = device-width, initial-scale = 1">
+
+  <script src="libraries/codemirror/lib/codemirror.js"></script>
+  <link rel="stylesheet" href="libraries/codemirror/lib/codemirror.css">
+  <link rel="stylesheet" href="libraries/codemirror/theme/solarized.css">
+  <script src="libraries/codemirror/mode/javascript/javascript.js"></script>
+  <script src="libraries/codemirror/mode/css/css.js"></script>
+  <script src="libraries/codemirror/mode/markdown/markdown.js"></script>
+  <script src="libraries/codemirror/mode/python/python.js"></script>
+  <script src="libraries/codemirror/mode/xml/xml.js"></script>
+  <script src="libraries/codemirror/mode/htmlmixed/htmlmixed.js"></script>
+  <script src="libraries/codemirror/addon/hint/show-hint.js"></script>
+  <script src="libraries/codemirror/addon/hint/css-hint.js"></script>
+  <script src="libraries/codemirror/addon/hint/html-hint.js"></script>
+  <script src="libraries/codemirror/addon/fold/xml-fold.js"></script>
+  <script src="libraries/codemirror/addon/edit/closebrackets.js"></script>
+  <script src="libraries/codemirror/addon/edit/closetag.js"></script>
+  <script src="libraries/codemirror/addon/hint/javascript-hint.js"></script>
+  <link rel="stylesheet" href="libraries/codemirror/addon/hint/show-hint.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis/4.19.1/vis.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/vis/4.19.1/vis.min.js"></script>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+  <script type="text/javascript" src="libraries/jquery/jquery.base64.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.5.7/p5.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.5.7/addons/p5.dom.min.js"></script>
+
+  <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+  <script type="text/javascript" src="libraries/jquery/jquery.connections.js"></script>
+
+  <link rel="stylesheet" href="style.css">
+
+
+</head>
+
+<body>
+<!-- Begin Inspectlet Embed Code -->
+
+<!-- End Inspectlet Embed Code -->
+
+<!-- NAVIGATION BAR
+ -->  
+  <nav role="navigation" class="navbar navbar-default navbar-fixed-top">
+    <div class="container-fluid">
+
+      <div class="navbar-header">
+        <a href="#" class="navbar-brand">Lattice</a>
+      </div>
+
+      <ul class="nav navbar-nav">
+        <li class="dropdown" ><a href="#">File</a></li>
+        <li class="dropdown"><a href="#">Edit</a></li>
+        <li class="dropdown">
+          <a data-toggle="dropdown" class="dropdown-toggle" href="#">Boards <b class="caret"></b></a>
+          <ul role="menu" class="dropdown-menu">
+            <li id= arduino><a href="#">Arduino</a></li>
+            <li><a href="#">Input</a></li>
+            <li><a href="#">Output</a></li>
+            <li><a href="#">Resistor</a></li>
+            <li><a href="#">Power</a></li>
+          </ul>
+        </li>
+        <li class="dropdown">
+          <a data-toggle="dropdown" class="dropdown-toggle" href="#">Editor <b class="caret"></b></a>
+          <ul role="menu" class="dropdown-menu">
+            <li><a href="#">Javascript</a></li>
+            <li><a href="#">Python</a></li>
+            <li><a href="#">HTML</a></li>
+            <li><a href="#">CSS</a></li>
+            <li><a href="#">Arduino</a></li>
+            <li id=p5 ><a href="#">p5.js</a></li>
+          </ul>
+        </li>
+        <li class="dropdown">
+          <a data-toggle="dropdown" class="dropdown-toggle" href="#">Text <b class="caret"></b></a>
+          <ul role="menu" class="dropdown-menu">
+            <li id= textbutton><a href="#">Textbox</a></li>
+            <li id= quest><a href="#">Question</a></li>
+            <li><a href="#">Comment</a></li>
+            <li><a href="#">Checklist</a></li>
+          </ul>
+        </li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="#">Login</a></li>
+      </ul>
+    </div>
+  </nav>
+
+
+
+  <div class="row">
+
+    <div class="col-lg-10">
+
+      <div class="container-save">
+        <button id="singlebutton" name="save" class="btn btn-info btn-lg center-block">SAVE</button>
+      </div>
+
+
+      <div class="row">
+<!--         <div class="container-tabs">
+ -->       <ul class="nav nav-tabs">
+             <li role="presentation" class="active"><a href="#">Project1</a></li>
+             <li role="presentation" class="passive"><a href="#">+</a></li>
+          </ul>
+<!--         </div>
+ -->      </div>
+
+<section class= "canvas" id="maincanvas">
+<br>
+            <div class="row">
+            <h1>innerHTML Demo</h1>
+        </div>
+        <div class="row">
+   <div class="frame" >
+
+<iframe id="result" height=100%; width=100%;></iframe>
+             </div>  
+   </div>
+    <div class="content">
+
+ <div class="row">
+
+            <div class= "p5editor">
+ <textarea id="codeeditor" onchange="submit_code()">
+  <style>
+  body {
+  font-weight: 300;
+  text-align: center;
+  font-size: 1.5em;
+}
+h4 {
+  margin-top: 20px;
+}
+#userMsg {
+  font-size: 36px;
+  font-weight: 100;
+}
+#indyWork {
+  margin-top: 20px;
+}
+  </style>
+<body>
+
+  <div class="container">
+    <div class="page-header">
+      <h1><code>innerHTML</code> Demo <br><small>Use JavaScript to change HTML</small></h1>
+    </div>
+    <div id="innerHTMLdemo">
+
+      <h4>Click the button to show some text</h4>
+      <input type="button" onclick="Msg1()" value="Show Message 1">
+      <input type="button" onclick="Msg2()" value="Show Message 2">
+      <p id="myText"></p>
+
+
+      <h4>Type text, then click to have it show up</h4>
+      <input type="input" maxlength="40" id="userInput" onclick="showMsg()" placeholder="Enter text here...">
+      <p id="userMsg"></p>
+
+      <h4 id="colorMsg">Choose a background color...</div> 
+<select id="colorPicker" onchange="JavaScript:changeColor()">
+<option value="transparent">None</option>
+<option value="#FBBC05">Yellow</option>
+<option value="salmon">Salmon</option>
+<option value="lightblue">Light Blue</option>
+<option value="limegreen">Lime Green</option>
+</select>
+  
+  <div class="alert alert-success" role="alert" id="indyWork"><b>Now you try it!</b> <br>Create a page where the user can control the content of the page, as well as the style.</div>
+
+  
+</div>
+</div>
+</body>  
+<script>
+      function Msg1() {
+  document.getElementById('myText').innerHTML = 'Hey you clicked a button!';
+}
+
+function Msg2() {
+  document.getElementById('myText').innerHTML = 'Nice job!';
+}
+
+function showMsg() {
+  var userInput = document.getElementById('userInput').value;
+  document.getElementById('userMsg').innerHTML = userInput;
+}
+
+function changeColor() {
+  var newColor = document.getElementById('colorPicker').value;
+  document.body.style.background = newColor;
+}
+</script>
+
+              </textarea>
+
+          <button type="button" class="btn btn-default btn-lg" onclick="submit_code();">Run</button>
+            </div>
+
+
+
+            </div>
+
+
+
+<!--                <div class="col-lg-6">
+
+        
+
+          </div> -->
+        </div>
+      <div class="col-lg-6" id= "questcolumn">
+      <div class="questbox">
+          <textarea rows="1" id=question cols="50">What did you try?</textarea><br><textarea id=answer rows="6" cols="50" placeholder="Type Here..."></textarea>
+      </div>
+      
+       </div>
+     <div class="col-lg-6">
+     <div class="questbox">
+          <textarea rows="1" id=question cols="50">What was the result?</textarea><br><textarea id=answer rows="6" cols="50" placeholder="Type Here..."></textarea>
+      </div>
+     <!-- <h2>CHECKLIST</h2>
+       <div class="checkbox">
+        <input type="checkbox"  value="checked" > Must be able to start and stop drawing (“pen up” and “pen down”)<br>
+        <input type="checkbox"  value="checked" >Draw with either a shape (rect(), ellipse(), etc.) or a line() in 🌈multiple colors🌈.<br>
+        <input type="checkbox"  value="checked" >Your canvas must resize to the window.<br>
+    <h2> EXTRA CREDIT </h2>
+            <input type="checkbox"  value="checked" >🌈 Let the user choose colors using the keyboard. For example, if they press b, they start drawing in blue. <br>
+            <input type="checkbox"  value="checked" >⌫ Let the user erase part of their drawing. There are a lot of ways to do this!<br>
+       </div> -->
+   </div>
+ </section>
+
+
+    </div>
+    <div class="sidebar">
+      <div class="sidebar-level" id="sidebar-row-0">
+    </div>
+
+  </div>
+
+<script src="js/script.js"></script>
+<script src="js/elements.js"></script>
+
+
+
+
+</body>
+</html>
