@@ -3,6 +3,13 @@ console.log('server is starting');
 var express    = require('express');        // call express
 var app        = express();                 // define our app using express
 var bodyParser = require('body-parser');
+//sessions
+var session = require('express-session')
+var expressValidator= require('express-validator')
+
+
+
+// ///////////////////////////////////
 
 var server= app.listen(8080, listening);
 
@@ -18,11 +25,22 @@ app.use(express.static('public'));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
+//setup validator here after body parser
+app.use(expressValidator());
+app.use(session({cookie:{maxAge:6000},secret:'secret',saveUninitialized:true,resave:true}));
+
+
+
 app.use(function(req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
   next();
 });
+
+// //middleware for sessions
+// app.use(express.cookieParser('S3CRE7'));
+// app.use(express.cookieSession());
+// app.use(app.router);
 
 // var port = process.env.PORT || 8080;        // set our port
 
@@ -46,6 +64,12 @@ router.use(function(req, res, next) {
 
 // test route to make sure everything is working (accessed at GET http://localhost:8080/api)
 router.get('/', function(req, res) {
+    // if(!req.session.visitcount){
+    //     req.session.visitcount=1;
+    // }else{
+    //     req.session.visitcount++;
+    // }
+    // res.render('index',{title:'Express'})
     res.json({ message: 'hooray! welcome to our api!' });   
 });
 
@@ -58,13 +82,14 @@ router.route('/versions')
 
     // create a bear (accessed at POST http://localhost:8080/api/bears)
     .post(function(req, res) {
-        console.log(req.body)
+        // console.log(req.body)
         console.log("creating a version")
         var version = new Version();      // create a new instance of the Bear model
         version.editorValue = req.body.editorValue;  // set the bears name (comes from the request)
         version.basicElements= req.body.basicElements;
         version.parentId = req.body.parentId
         version.id= req.body._id
+        version.username= req.body.username;
         // version.bearType = req.body.bearType;  // set the bears type (comes from the request)
 
         // save the bear and check for errors
@@ -82,6 +107,7 @@ router.route('/versions')
     });
     //get all the bears 
 router.route('/versions').get(function(req,res){
+        // only find by username
         Version.find(function(err,versions){
             if (err)
                 res.send(err);

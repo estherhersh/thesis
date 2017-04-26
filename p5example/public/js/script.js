@@ -61,25 +61,7 @@ function submit_code()
 // ---------------------------------------------
 
 var counter = 1;
-// var versionArray= [];
-// var edges= [];
-// var versionID= [];
 
-// function createVersion(id) {
-//   // Create a new div DOM element
-//   var version = document.createElement('div')
-//   version.className = 'version';
-//   // var userInput = version.value;
-//   //version.innerHTML = ' <input id="'+id+'" placeholder="Version' + counter + '" rows= 1>' ;
-//   version.innerHTML = ' <a id="'+id+'" href="#">Version' +counter+ '</a>' ;
-//   // console.log(userInput)
-//   versionID.push(id)
-//   // console.log(versionID)
-//   // currentV= versionID[versionID.length-1]
-//   // console.log(id)
-       
-//     versionArray.push({id: id})
-//     edges.push({from: id, to: versionID[versionID.length-2]})
 
 function createVersion(id,level,parentId) {
   row = $('#sidebar-row-'+level)
@@ -101,8 +83,7 @@ function createVersion(id,level,parentId) {
   // console.log(parentElement)
   // console.log(currentDate)
 
-  // addConnection(versionElement, parentElement)
-
+//add connections 
       $(`#${parentId}`).connections({
     to: `#${id}`,
     'class': 'related'
@@ -119,30 +100,9 @@ function createVersion(id,level,parentId) {
 
 
 
-// var container = document.getElementById('versions');
-  // var data = {
-  //   'nodes': versionArray,
-  //   'edges': edges
-  // };
-  // var options = {};
-  // var network = new vis.Network(versionsCol, data, options);
-
-// $('.version' +counter).connections({
-//   to: '.version' -1,
-//   'class': 'related'
-// });
-// // console.log('connect')
-// $('.version').connections('update');
-
-// var c = $('connection');
-// setInterval(function() {
-//   c.connections('update');
-// }, 10);
 
   counter++;
 }
-
-  // $(version).draggable({ containment: "parent"})
 
   function selectVersion(id, level){
   // make a get request to /api/versions/{id}
@@ -198,27 +158,94 @@ function loadChildren(data, id, level){
   })
 }
 
+function makeid()
+{
+    var text = "";
+    var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+
+    for( var i=0; i < 5; i++ )
+        text += possible.charAt(Math.floor(Math.random() * possible.length));
+
+    return text;
+}
 // Load existing versions
 // ---------------------------
 
+if(getUsernameFromCookie(document.cookie) != ""){
+  username= getUsernameFromCookie(document.cookie)
+}else{
+  var username= makeid();
+}
+console.log(username)
+
+
+var exp = new Date();     //set new date object  
+exp.setTime(exp.getTime() + (1000 * 60 * 60 * 24 * 30));     //set it 30 days ahead 
+// var username= 'user1'
+// cookieuser= getCookie('cookie')
+// cookieuser= username
+
+
+
+function setCookie(name, value, expires) {  
+
+  document.cookie = escape(name) + "=" + escape(value) + "; expires=" + expires.toGMTString(); 
+  // alert(getUsernameFromCookie(document.cookie))
+} 
+
+function getUsernameFromCookie(cookie_){
+  
+  var pos = cookie_.indexOf('username')
+  cookie_=cookie_.substring(pos);
+
+  var pos = cookie_.indexOf('=')
+  cookie_=cookie_.substring(pos+1);
+
+  var pos = cookie_.indexOf(';')
+  if(pos>0){
+    cookie_=cookie_.substring(0, pos);
+  }
+  return cookie_.substring(pos);
+}
+
+
+
+setCookie('username', username, exp);
+// console.log(typeof(document.cookie))
+console.log(document.cookie)
+
+
+
+
+// var data = {username: username};
+
+// TODO: Add username to data
  $.ajax({
     type: "GET",
     url: 'http://localhost:8080/api/versions',
+    // data:{ username : 'username2'},
     success: function(data) {
-      let parentArray = data.filter(function(d){return d.parentId == "" })
+
+      // data.find({username:username})
+      var user = data.filter(function(d){return d.username == username });
+            console.log(user)
+
+    // var user=[];
+    //   for(i=0;i<data.length;i++){
+    //   user.push( data.filter(function(d){return d.username == "user1" }))
+    //   }
+      
+      let parentArray = user.filter(function(d){return d.parentId == "" })
       $.each(parentArray, function(j, p){
         createVersion(p._id, 0, "")
         loadChildren(data, p._id, 1)
       })
 
+
       // id = latest timestamp in data array
       // selectVersion(id)
-
-      // for(var i = 0; i < data.length; i++) {
-      //   createVersion(data[i]._id)
-      //   currentVersion = data[i]._id
-      // }
     }
+  
   });
 
 // Create new versions
@@ -230,7 +257,7 @@ var saveButton = document.getElementById('singlebutton');
 // Find the column to put the versions in
 // var versionsCol = document.getElementById('versions');
 
-// When that button is clicked
+// When SAVE button is clicked
 saveButton.addEventListener('click', function(e) {
   // Don't follow the link
   e.preventDefault();
@@ -262,7 +289,8 @@ saveButton.addEventListener('click', function(e) {
     data: JSON.stringify({
       editorValue: codeeditor.getValue(),
       basicElements: questionsData,
-      parentId: currentVersion
+      parentId: currentVersion,
+      username: username
       // date: Date 
 
           }),
