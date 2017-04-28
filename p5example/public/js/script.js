@@ -18,6 +18,7 @@ var codeeditor = CodeMirror.fromTextArea(textarea, {
     "Tab": "indentMore"
   }
 });
+  var c = $('connection');
 
 var currentVersion = '';
 var currentLevel = -1;
@@ -155,8 +156,12 @@ function loadChildren(data, id, level){
   let childrenArray = data.filter(function(d){return d.parentId == id })
   $.each(childrenArray, function(i, d){
     createVersion(d._id, level,id)
+        selectVersion(d._id, level)
+
     loadChildren(data, d._id, level+1)
+
   })
+
 }
 
 function makeid()
@@ -245,8 +250,6 @@ console.log(document.cookie)
       })
 
 
-      // id = latest timestamp in data array
-      // selectVersion(id)
     }
   
   });
@@ -304,13 +307,20 @@ saveButton.addEventListener('click', function(e) {
       currentVersion = data._id;
       currentLevel++;
       createVersion(data._id, currentLevel, data.parentId);
+
+
+
+    selectVersion(currentVersion, currentLevel)
+
+      console.log($('.sidebar-version').connections('update'))
+
       // console.log(basicElements)
     }
 
 
   });
     window.location.reload();
-
+// latestVersion= data[data.length-1]
 
 })
 

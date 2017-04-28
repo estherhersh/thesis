@@ -138,14 +138,8 @@ function selectVersion(id, level){
         // addP5(data.editor[i].top,data.editor[i].left)
     addP5(data.editor.top,data.editor.left)
 
-        // addP5(100,100)
-
-        // console.log(data.editor[i].top,data.editor[i].left)
-        // addQuestion(656,435)
       }
-
-
-      var code = `
+ var code = `
           <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
           <script src='https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.5.7/p5.min.js'></script>
           <script src='https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.5.7/addons/p5.dom.min.js'></script>
@@ -156,10 +150,7 @@ function selectVersion(id, level){
             }
           </script>
         </body>
-      </html>`
-
-
-        
+      </html>`     
         // take the result data and put data.editorValue inside the editor
       codeeditor.setValue(data.editorValue);  
       var previewFrame = document.getElementById('result');
@@ -283,6 +274,10 @@ saveButton.addEventListener('click', function(e) {
 
     window.location.reload();
 
+// latestVersion= data[data.length-1]
+//    selectVersion($(this).attr('id'), $(this).data('level'))
+console.log(version[version.length])
+
 })
 
 
@@ -299,5 +294,5 @@ saveButton.addEventListener('click', function(e) {
 //   c.connections('update');
 // }, 10);
 
-  // Increment counter for next version
+  // Increment counter for next version 
  
