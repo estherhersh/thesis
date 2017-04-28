@@ -105,7 +105,9 @@ function createVersion(id,level,parentId) {
 
   $.ajax({
     type: "GET",
-    url: 'localhost/api/versions/'+id,
+    // url: 'localhost/api/versions/'+id,
+     url: '/api/versions/'+id,
+
     contentType : 'application/json',
     success: function(data) {
       currentVersion = id;
@@ -209,8 +211,8 @@ console.log(document.cookie)
 // TODO: Add username to data
  $.ajax({
     type: "GET",
-    // url: 'http://localhost:8080/api/versions',
-        url: 'http://104.236.103.38:8080/api/versions',
+    url: '/api/versions',
+        // url: 'http://104.236.103.38:8080/api/versions',
 
     // data:{ username : 'username2'},
     success: function(data) {
@@ -273,7 +275,7 @@ saveButton.addEventListener('click', function(e) {
   // save a version
   $.ajax({
     type: "POST",
-    url: 'http://localhost:8080/api/versions',
+    url: '/api/versions',
         // url: 'http://104.236.103.38:8080/api/versions',
     contentType : 'application/json',
     data: JSON.stringify({

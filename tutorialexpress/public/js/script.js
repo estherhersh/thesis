@@ -125,7 +125,7 @@ function selectVersion(id, level){
 
   $.ajax({
     type: "GET",
-    url: 'http://localhost:8080/api/versions/'+id,
+    url: '/api/versions/'+id,
     contentType : 'application/json',
     success: function(data) {
       currentVersion = id;
@@ -193,7 +193,7 @@ function loadChildren(data, id, level){
 
  $.ajax({
     type: "GET",
-    url: 'http://localhost:8080/api/versions',
+    url: '/api/versions',
     success: function(data) {
       let parentArray = data.filter(function(d){return d.parentId == "" })
       $.each(parentArray, function(j, p){
@@ -262,7 +262,7 @@ saveButton.addEventListener('click', function(e) {
   // save a version
   $.ajax({
     type: "POST",
-    url: 'http://localhost:8080/api/versions',
+    url: '/api/versions',
     contentType : 'application/json',
     data: JSON.stringify({
       editor: p5Data,

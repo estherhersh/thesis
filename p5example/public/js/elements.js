@@ -104,7 +104,7 @@ function addQuestion(question,answer) {
 
   var questbox = document.createElement('div')
   questbox.className = 'questbox';
-  questbox.innerHTML = '<textarea rows="1" id=question cols="50" placeholder="QUESTION"></textarea><br><textarea id=answer rows="6" cols="50" placeholder="Type Here..."></textarea>'
+  questbox.innerHTML = '<textarea rows="1" id=question cols="40" placeholder="QUESTION"></textarea><br><textarea id=answer rows="6" cols="40" placeholder="Type Here..."></textarea>'
     // maincanvas.appendChild(questbox);
   questColumn.appendChild(questbox);
 
